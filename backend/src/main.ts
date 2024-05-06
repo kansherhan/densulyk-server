@@ -3,6 +3,7 @@ import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
 
 import { AuthGuard } from "./auth/guards/auth.guard";
+import { UserEmailVerifyGuard } from "@/users/guards/user-email-verify.guard";
 
 import { UsersService } from "./users/users.service";
 
@@ -13,6 +14,7 @@ import { RequestValidationPipe } from "./pipes/request-validation.pipe";
 
     app.useGlobalGuards(
         new AuthGuard(app.get(UsersService), app.get(Reflector)),
+        new UserEmailVerifyGuard(),
     );
 
     app.useGlobalPipes(new RequestValidationPipe());

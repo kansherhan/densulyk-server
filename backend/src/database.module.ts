@@ -3,6 +3,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
 
 import { User } from "@/users/models/users.model";
 import { UserToken } from "@/users/models/user-tokens.model";
+import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
 import { Role } from "@/roles/roles.model";
 
 export const CreateDatabaseModule = (): DynamicModule => {
@@ -17,6 +18,6 @@ export const CreateDatabaseModule = (): DynamicModule => {
         database: process.env.POSTGRES_DB,
         logging: false,
 
-        models: [User, UserToken, Role],
+        models: [User, UserToken, UserEmailVerification, Role],
     });
 };

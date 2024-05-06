@@ -54,6 +54,13 @@ export class User extends Model<User, UserCreationAttributes> {
     })
     password: string;
 
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    })
+    emailVerified: boolean;
+
     @ForeignKey(() => Role)
     @Column({
         type: DataType.INTEGER,

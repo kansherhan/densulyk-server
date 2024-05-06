@@ -5,6 +5,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { UserToken } from "@/users/models/user-tokens.model";
 import { User, UserCreationAttributes } from "./models/users.model";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
 
 const USER_EXCLUDE_COLUMN: string[] = ["password"];
 
@@ -13,6 +14,9 @@ export class UsersService {
     constructor(
         @InjectModel(User)
         private readonly userModel: typeof User,
+
+        @InjectModel(UserEmailVerification)
+        private readonly userEmailVerificationsModel: typeof UserEmailVerification,
 
         @InjectModel(UserToken)
         private readonly userTokenModel: typeof UserToken,
@@ -38,6 +42,14 @@ export class UsersService {
         });
     }
 
+    async getUserById(userID: number): Promise<User> {
+        return await this.userModel.findOne({
+            where: {
+                id: userID,
+            },
+        });
+    }
+
     async getUserByAPIToken(userAccessToken: string): Promise<UserToken> {
         return await this.userTokenModel.findOne({
             where: {
@@ -55,6 +67,27 @@ export class UsersService {
         userData.password = await bcrypt.hash(userData.password, PasswordSalt);
 
         return await this.userModel.create(userData);
+    }
+
+    async createUserEmailVerification(
+        userID: number,
+        code: number,
+    ): Promise<UserEmailVerification> {
+        return this.userEmailVerificationsModel.create({
+            userID,
+            code,
+        });
+    }
+
+    async getLastUserEmailVerification(
+        userID: number,
+    ): Promise<UserEmailVerification> {
+        return this.userEmailVerificationsModel.findOne({
+            where: {
+                userID,
+            },
+            order: [["createdAt", "DESC"]],
+        });
     }
 
     async updateCurrentUser(
