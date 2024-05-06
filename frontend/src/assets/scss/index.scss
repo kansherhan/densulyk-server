@@ -1,0 +1,49 @@
+@import "./variables";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #212427;
+  background: #e5e7eb;
+
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+
+  font-style: normal;
+  line-height: normal;
+  font-weight: normal;
+}
+
+input,
+button {
+  font-family: "Montserrat", sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.root-container {
+  width: 100%;
+  max-width: 1620px;
+  margin: 0 auto;
+}
+
+@import "components/ui/text-input";
+@import "components/ui/button";
+
+@import "components/header";
+@import "components/footer";
+
+@import "pages/main";
+@import "pages/auth";

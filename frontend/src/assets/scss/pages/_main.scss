@@ -1,0 +1,211 @@
+.main-page {
+  .hero {
+    padding: 240px 0 285px 0;
+
+    background-position: center;
+    background: url("/images/main-page-back.png");
+    background-size: cover;
+
+    backdrop-filter: blur(10px);
+
+    h1 {
+      color: #fff;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      font-size: 80px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: #fff;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      text-transform: lowercase;
+    }
+
+    button {
+      background: $primaryColor;
+      color: #fff;
+      text-shadow: 0px 2.686px 2.686px rgba(0, 0, 0, 0.25);
+      padding: 20px 70px;
+      border-radius: 50px;
+      border: none;
+      font-size: 21px;
+      line-height: normal;
+      cursor: pointer;
+
+      margin-top: 50px;
+    }
+  }
+
+  .welcome {
+    background: #fff;
+    position: relative;
+
+    padding: 190px 0 360px 0;
+
+    .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      h2 {
+        color: #6479a9;
+        font-size: 46px;
+        font-weight: 500;
+        text-transform: uppercase;
+
+        margin-bottom: 20px;
+      }
+
+      h4 {
+        color: #005963;
+        font-size: 32px;
+        font-weight: 500;
+        text-transform: capitalize;
+
+        margin-bottom: 35px;
+      }
+
+      p {
+        color: #2a437d;
+        text-align: center;
+        font-size: 21px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+    }
+
+    .subscribe-us {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: absolute;
+      top: calc(155.21px / -2);
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 1;
+
+      border-radius: 40px;
+      padding: 35px 70px;
+      background: #ebf2f3;
+
+      cursor: pointer;
+
+      img {
+        width: 90px;
+        height: auto;
+
+        margin-right: 25px;
+      }
+
+      p {
+        color: $primaryColor;
+        font-size: 21px;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .services {
+    background: #c2d7da;
+
+    position: relative;
+
+    padding: 350px 0 100px 0;
+
+    .banner {
+      position: absolute;
+      top: calc(500.33px / -2);
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 1;
+
+      width: 1440px;
+      height: auto;
+    }
+
+    .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      .title {
+        color: #f5f9f9;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        font-size: 53.666px;
+        font-weight: 600;
+        text-align: center;
+        text-transform: uppercase;
+
+        margin-bottom: 50px;
+      }
+
+      .recommendations {
+        list-style-type: none;
+
+        display: grid;
+        grid-template-columns: repeat(3, 350px);
+        grid-template-rows: repeat(2, 200px);
+        grid-column-gap: 135px;
+        grid-row-gap: 45px;
+
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          padding: 35px 50px;
+          background: #fff;
+          border-radius: 40px;
+
+          text-transform: uppercase;
+          text-align: center;
+
+          color: #10636d;
+          font-size: 21px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+
+          box-shadow: rgba(255, 255, 255, 0.12) 0px 2px 4px 0px,
+            rgba(255, 255, 255, 0.32) 0px 2px 16px 0px;
+        }
+      }
+    }
+  }
+
+  .mission {
+    background: #fff;
+
+    padding: 100px 0;
+
+    .title {
+      color: #005963;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      font-size: 48px;
+      font-weight: 400;
+      text-align: center;
+      text-transform: uppercase;
+
+      margin-bottom: 35px;
+    }
+
+    p {
+      color: #2a437d;
+      font-size: 21px;
+      font-style: normal;
+      text-align: center;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+}
