@@ -4,7 +4,10 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { User } from "@/users/models/users.model";
 import { UserToken } from "@/users/models/user-tokens.model";
 import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
-import { Role } from "@/roles/roles.model";
+
+import { Patient } from "@/patients/models/patients.model";
+import { PatientDiagnostic } from "@/patients/models/patient-diagnostics.model";
+import { PatientAppointment } from "@/patients/models/patient-appointments.model";
 
 export const CreateDatabaseModule = (): DynamicModule => {
     return SequelizeModule.forRoot({
@@ -18,6 +21,14 @@ export const CreateDatabaseModule = (): DynamicModule => {
         database: process.env.POSTGRES_DB,
         logging: false,
 
-        models: [User, UserToken, UserEmailVerification, Role],
+        models: [
+            User,
+            UserToken,
+            UserEmailVerification,
+
+            Patient,
+            PatientDiagnostic,
+            PatientAppointment,
+        ],
     });
 };

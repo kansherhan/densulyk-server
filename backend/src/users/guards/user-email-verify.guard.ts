@@ -2,7 +2,6 @@ import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 
 import { AuthenticatedRequest } from "@/types/requests";
 
-import { User } from "@/users/models/users.model";
 import { EmailNotVerifyException } from "@/users/exceptions/email-not-verify.exception";
 
 @Injectable()
@@ -12,9 +11,9 @@ export class UserEmailVerifyGuard implements CanActivate {
             .switchToHttp()
             .getRequest<AuthenticatedRequest>();
 
-        const user: User = request.user;
+        const user = request.user;
 
-        if (!user) {
+        if (request.allowUnauthorizedRequest) {
             return true;
         }
 

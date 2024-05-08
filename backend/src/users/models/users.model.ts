@@ -1,13 +1,4 @@
-import {
-    Model,
-    Table,
-    Column,
-    DataType,
-    ForeignKey,
-    BelongsTo,
-} from "sequelize-typescript";
-
-import { Role } from "@/roles/roles.model";
+import { Model, Table, Column, DataType } from "sequelize-typescript";
 
 export interface UserCreationAttributes {
     firstName: string;
@@ -61,13 +52,10 @@ export class User extends Model<User, UserCreationAttributes> {
     })
     emailVerified: boolean;
 
-    @ForeignKey(() => Role)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
+        defaultValue: 1,
     })
     roleID: number;
-
-    @BelongsTo(() => Role)
-    role: Role;
 }

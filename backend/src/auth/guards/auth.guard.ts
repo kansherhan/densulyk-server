@@ -25,13 +25,14 @@ export class AuthGuard implements CanActivate {
             context.getHandler(),
         );
 
-        if (allowedNotAuthorized) {
-            return true;
-        }
-
         const request = context
             .switchToHttp()
             .getRequest<AuthenticatedRequest>();
+
+        if (allowedNotAuthorized) {
+            request.allowUnauthorizedRequest = true;
+            return true;
+        }
 
         const userAccessToken = AuthGuard.validateAuthorizationHeader(
             request.headers.authorization,

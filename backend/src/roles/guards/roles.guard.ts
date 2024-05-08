@@ -1,10 +1,4 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    HttpException,
-    HttpStatus,
-    Injectable,
-} from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 
 import { ROLES_KEY } from "../decorators/roles-auth.decorator";
@@ -16,30 +10,23 @@ export class RolesGuard implements CanActivate {
     constructor(private reflector: Reflector) {}
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> {
-        try {
-            const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-                ROLES_KEY,
-                [context.getHandler(), context.getClass()],
-            );
+        const requiredRoles = this.reflector.getAllAndOverride<number[]>(
+            ROLES_KEY,
+            [context.getHandler(), context.getClass()],
+        );
 
-            if (!requiredRoles) {
-                return true;
-            }
-
-            const request = context
-                .switchToHttp()
-                .getRequest<AuthenticatedRequest>();
-
-            if (!request.user) {
-                throw new UnauthorizedException();
-            }
-
-            return requiredRoles.some(
-                (role) => request.user.role.name === role,
-            );
-        } catch (error) {
-            console.log(error);
-            throw new HttpException("Нет доступа", HttpStatus.FORBIDDEN);
+        if (!requiredRoles || requiredRoles.length === 0) {
+            return true;
         }
+
+        const request = context
+            .switchToHttp()
+            .getRequest<AuthenticatedRequest>();
+
+        if (!request.user) {
+            throw new UnauthorizedException();
+        }
+
+        return requiredRoles.some((role) => request.user.roleID === role);
     }
 }

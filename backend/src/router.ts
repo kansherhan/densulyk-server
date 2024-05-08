@@ -1,9 +1,9 @@
 import { RouterModule } from "@nestjs/core";
 import { DynamicModule } from "@nestjs/common";
 
-import { UsersModule } from "./users/users.module";
-import { AuthModule } from "./auth/auth.module";
-import { RolesModule } from "@/roles/roles.module";
+import { UsersModule } from "@/users/users.module";
+import { AuthModule } from "@/auth/auth.module";
+import { PatientsModule } from "@/patients/patients.module";
 
 export const CreateRouterModule = (): DynamicModule => {
     return RouterModule.register([
@@ -19,8 +19,8 @@ export const CreateRouterModule = (): DynamicModule => {
                     module: UsersModule,
                 },
                 {
-                    path: "roles",
-                    module: RolesModule,
+                    path: "patients",
+                    module: PatientsModule,
                 },
             ],
         },

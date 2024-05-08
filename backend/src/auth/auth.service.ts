@@ -14,6 +14,7 @@ import { AuthorizationException } from "@/auth/exceptions/authorization.exceptio
 import { HasUserException } from "@/auth/exceptions/has-user.exception";
 import { BearerToken } from "@/utilities/bearer-token";
 import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
+import { EmailVerificationErrorException } from "@/auth/exceptions/email-verification-error.exception";
 import { Random } from "@/utilities/random";
 
 @Injectable()
@@ -67,20 +68,16 @@ export class AuthService {
         });
     }
 
-    async emailVerify(dto: AuthEmailVerifyDto) {
-        const user = await this.usersService.getUserByID(dto.userID);
+    async emailVerify(user: User, dto: AuthEmailVerifyDto) {
+        const emailVerification =
+            await this.usersService.getLastUserEmailVerification(user.id);
 
-        if (user) {
-            const emailVerification =
-                await this.usersService.getLastUserEmailVerification(
-                    dto.userID,
-                );
-
-            if (emailVerification && emailVerification.code === dto.code) {
-                user.emailVerified = true;
-                await user.save();
-            }
+        if (!emailVerification || emailVerification.code === dto.code) {
+            throw new EmailVerificationErrorException();
         }
+
+        user.emailVerified = true;
+        await user.save();
     }
 
     private async sendEmailVerification(email: string, code: number) {
