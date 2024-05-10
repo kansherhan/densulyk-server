@@ -9,6 +9,8 @@ import { Patient } from "@/patients/models/patients.model";
 import { PatientDiagnostic } from "@/patients/models/patient-diagnostics.model";
 import { PatientAppointment } from "@/patients/models/patient-appointments.model";
 
+import { Doctor } from "@/doctors/models/doctors.model";
+
 export const CreateDatabaseModule = (): DynamicModule => {
     return SequelizeModule.forRoot({
         dialect: "postgres",
@@ -29,6 +31,8 @@ export const CreateDatabaseModule = (): DynamicModule => {
             Patient,
             PatientDiagnostic,
             PatientAppointment,
+
+            Doctor,
         ],
     });
 };

@@ -1,4 +1,6 @@
-import { Model, Table, Column, DataType } from "sequelize-typescript";
+import { Model, Table, Column, DataType, HasOne } from "sequelize-typescript";
+import { Doctor } from "@/doctors/models/doctors.model";
+import { Patient } from "@/patients/models/patients.model";
 
 export interface UserCreationAttributes {
     firstName: string;
@@ -58,4 +60,10 @@ export class User extends Model<User, UserCreationAttributes> {
         defaultValue: 1,
     })
     roleID: number;
+
+    @HasOne(() => Doctor)
+    doctor: Doctor;
+
+    @HasOne(() => Patient)
+    patient: Patient;
 }

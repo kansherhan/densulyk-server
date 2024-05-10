@@ -6,6 +6,8 @@ import { UserToken } from "@/users/models/user-tokens.model";
 import { User, UserCreationAttributes } from "./models/users.model";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
+import { Patient } from "@/patients/models/patients.model";
+import { Doctor } from "@/doctors/models/doctors.model";
 
 const USER_EXCLUDE_COLUMN: string[] = ["password"];
 
@@ -21,6 +23,18 @@ export class UsersService {
         @InjectModel(UserToken)
         private readonly userTokenModel: typeof UserToken,
     ) {}
+
+    async getCurrentUser(user: User) {
+        return await this.userModel.findOne({
+            where: {
+                id: user.id,
+            },
+            attributes: {
+                exclude: USER_EXCLUDE_COLUMN,
+            },
+            include: [Patient, Doctor],
+        });
+    }
 
     async getUserByID(userID: number): Promise<User> {
         return await this.userModel.findOne({
@@ -55,9 +69,7 @@ export class UsersService {
             where: {
                 token: userAccessToken,
             },
-            include: {
-                all: true,
-            },
+            include: User,
         });
     }
 
@@ -86,6 +98,7 @@ export class UsersService {
             where: {
                 userID,
             },
+            include: User,
             order: [["createdAt", "DESC"]],
         });
     }

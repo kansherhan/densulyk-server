@@ -4,6 +4,7 @@ import {
     DataType,
     ForeignKey,
     Model,
+    Table,
 } from "sequelize-typescript";
 import { User } from "@/users/models/users.model";
 
@@ -12,7 +13,11 @@ export interface DoctorCreationAttributes {
     speciality: string;
 }
 
-export class DoctorModel extends Model<DoctorModel, DoctorCreationAttributes> {
+@Table({
+    tableName: "doctors",
+    timestamps: false,
+})
+export class Doctor extends Model<Doctor, DoctorCreationAttributes> {
     @Column({
         type: DataType.INTEGER,
         unique: true,

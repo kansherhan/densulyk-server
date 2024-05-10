@@ -8,6 +8,7 @@ import { UserEmailVerifyGuard } from "@/users/guards/user-email-verify.guard";
 import { UsersService } from "./users/users.service";
 
 import { RequestValidationPipe } from "./pipes/request-validation.pipe";
+import { RolesGuard } from "@/roles/guards/roles.guard";
 
 (async () => {
     const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ import { RequestValidationPipe } from "./pipes/request-validation.pipe";
     app.useGlobalGuards(
         new AuthGuard(app.get(UsersService), app.get(Reflector)),
         new UserEmailVerifyGuard(),
+        new RolesGuard(app.get(Reflector)),
     );
 
     app.useGlobalPipes(new RequestValidationPipe());
@@ -22,6 +24,6 @@ import { RequestValidationPipe } from "./pipes/request-validation.pipe";
     app.enableCors();
 
     await app.listen(process.env.BACKEND_PORT, "0.0.0.0", () => {
-        console.log(`Сервер запустилься на порту ${process.env.BACKEND_PORT}!`);
+        console.log(`Сервер запускается на порту ${process.env.BACKEND_PORT}!`);
     });
 })();

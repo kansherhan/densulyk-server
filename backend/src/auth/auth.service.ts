@@ -68,13 +68,15 @@ export class AuthService {
         });
     }
 
-    async emailVerify(user: User, dto: AuthEmailVerifyDto) {
+    async emailVerify(dto: AuthEmailVerifyDto) {
         const emailVerification =
-            await this.usersService.getLastUserEmailVerification(user.id);
+            await this.usersService.getLastUserEmailVerification(dto.userID);
 
-        if (!emailVerification || emailVerification.code === dto.code) {
+        if (!emailVerification || emailVerification.code !== dto.code) {
             throw new EmailVerificationErrorException();
         }
+
+        const user = emailVerification.user;
 
         user.emailVerified = true;
         await user.save();

@@ -21,8 +21,8 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get("me")
-    async getCurrentUser(@Req() user: AuthenticatedRequest) {
-        return user.user;
+    async getCurrentUser(@Req() request: AuthenticatedRequest) {
+        return await this.usersService.getCurrentUser(request.user);
     }
 
     @Get(":id")
