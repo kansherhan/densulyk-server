@@ -1,4 +1,5 @@
 import { TextInput } from "../../components/TextInput.jsx";
+import { Button } from "../../components/Button.jsx";
 
 export function EmailVerificationPage() {
   return (
@@ -10,7 +11,7 @@ export function EmailVerificationPage() {
 
         <TextInput type="number" placeholder="Код для подтверждения" />
 
-        <input className="submit-button" type="submit" value="Подтвердить" />
+        <Button className="submit-button" type="submit" label="Подтвердить" />
       </form>
     </div>
   );

@@ -15,7 +15,7 @@ export function IndexPage() {
         </div>
       </section>
 
-      <section className="welcome">
+      <section id="about" className="welcome">
         <div className="subscribe-us">
           <img src={peopleIcon} alt="people" />
           <p>ЗАПИШИСЬ К НАМ</p>

@@ -2,7 +2,7 @@ import lightLogoIcon from "../assets/svg/light-logo.svg";
 
 export function Footer() {
   return (
-    <footer className="root-footer">
+    <footer id="contacts" className="root-footer">
       <div className="top">
         <div className="container">
           <div className="inner">

@@ -1,5 +1,7 @@
-.submit-button {
-  display: block;
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   font-size: 16px;
   font-weight: 700;
@@ -12,7 +14,11 @@
 
   text-transform: uppercase;
 
-  padding: 20px 120px;
+  padding: 10px 20px;
 
   cursor: pointer;
+}
+
+.submit-button {
+  padding: 20px 120px;
 }
