@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
@@ -11,6 +10,8 @@ import { PatientAppointment } from "./models/patient-appointments.model";
 import { CreatePatientDiagnosticDto } from "@/patients/dto/create-patient-diagnostic.dto";
 import { UpdatePatientDiagnosticDto } from "@/patients/dto/update-patient-diagnostic.dto";
 import { User } from "@/users/models/users.model";
+import { Doctor } from "@/doctors/models/doctors.model";
+import { PatientDiagnosticNotFoundException } from "@/patients/exceptions/PatientDiagnosticNotFound.exception";
 
 @Injectable()
 export class PatientsService {
@@ -26,14 +27,35 @@ export class PatientsService {
     ) {}
 
     async createPatientAppointment(
+        patient: User,
         dto: CreatePatientAppointmentDto,
     ): Promise<PatientAppointment> {
-        dto.date = moment(dto.date).toDate();
-
-        return await this.patientAppointmentModel.create(dto);
+        return await this.patientAppointmentModel.create({
+            userID: patient.id,
+            ...dto,
+        });
     }
 
-    async getCurrentPatientAllAppointment(user: User) {}
+    async getCurrentPatientAllAppointment(patient: User) {
+        return await this.patientAppointmentModel.findAll({
+            where: {
+                userID: patient.id,
+            },
+            include: [
+                {
+                    model: User,
+                    as: "doctor",
+                    include: [
+                        {
+                            model: Doctor,
+                            attributes: ["speciality"],
+                        },
+                    ],
+                    attributes: ["id", "firstName", "lastName"],
+                },
+            ],
+        });
+    }
 
     async updatePatientInfo(dto: CreateAndUpdatePatientDto): Promise<Patient> {
         const patient = await this.patientModel.findOne({
@@ -52,10 +74,35 @@ export class PatientsService {
         }
     }
 
+    async getAllPatientDiagnostic(patient: User) {
+        return await this.patientDiagnosticModel.findAll({
+            where: {
+                userID: patient.id,
+            },
+            include: [
+                {
+                    model: User,
+                    as: "doctor",
+                    include: [
+                        {
+                            model: Doctor,
+                            attributes: ["speciality"],
+                        },
+                    ],
+                    attributes: ["id", "firstName", "lastName"],
+                },
+            ],
+        });
+    }
+
     async createPatientDiagnostic(
+        doctor: User,
         dto: CreatePatientDiagnosticDto,
     ): Promise<PatientDiagnostic> {
-        return await this.patientDiagnosticModel.create(dto);
+        return await this.patientDiagnosticModel.create({
+            doctorID: doctor.id,
+            ...dto,
+        });
     }
 
     async updatePatientDiagnostic(
@@ -73,6 +120,8 @@ export class PatientsService {
             await diagnostic.save();
 
             return diagnostic;
+        } else {
+            throw new PatientDiagnosticNotFoundException();
         }
     }
 }

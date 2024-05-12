@@ -11,6 +11,8 @@ import { UnauthorizedException } from "@/auth/exceptions/unauthorized.exception"
 
 import { BearerToken } from "@/utilities/bearer-token";
 import { UserToken } from "@/users/models/user-tokens.model";
+import { BearerTokenLifeExpiredException } from "@/auth/exceptions/bearer-token-life-expired.exception";
+import { ProblemWithAuthorizationTokensException } from "@/auth/exceptions/problem-with-authorization-tokens.exception";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -44,15 +46,15 @@ export class AuthGuard implements CanActivate {
 
         if (userToken) {
             if (!BearerToken.validateTokenLife(userToken)) {
-                return false;
+                throw new BearerTokenLifeExpiredException();
             }
 
             request.user = userToken.user;
 
             return true;
+        } else {
+            throw new ProblemWithAuthorizationTokensException();
         }
-
-        return false;
     }
 
     private static validateAuthorizationHeader(

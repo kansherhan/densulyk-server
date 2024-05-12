@@ -38,7 +38,7 @@ export class PatientDiagnostic extends Model<
     })
     userID: number;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, "userID")
     user: User;
 
     @ForeignKey(() => User)
@@ -48,7 +48,7 @@ export class PatientDiagnostic extends Model<
     })
     doctorID: number;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, "doctorID")
     doctor: User;
 
     @Column({

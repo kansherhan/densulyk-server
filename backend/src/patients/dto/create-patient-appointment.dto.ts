@@ -2,9 +2,6 @@ import { IsString, IsDateString, IsInt } from "class-validator";
 
 export class CreatePatientAppointmentDto {
     @IsInt()
-    userID: number;
-
-    @IsInt()
     doctorID: number;
 
     @IsDateString()

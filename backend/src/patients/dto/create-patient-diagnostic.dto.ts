@@ -1,6 +1,12 @@
+import { IsInt, IsString } from "class-validator";
+
 export class CreatePatientDiagnosticDto {
+    @IsInt()
     userID: number;
-    doctorID: number;
+
+    @IsString()
     diagnosis_name: string;
+
+    @IsString()
     recommendation: string;
 }

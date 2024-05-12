@@ -4,6 +4,7 @@ import { Reflector } from "@nestjs/core";
 import { ROLES_KEY } from "../decorators/roles-auth.decorator";
 import { AuthenticatedRequest } from "@/types/requests";
 import { UnauthorizedException } from "@/auth/exceptions/unauthorized.exception";
+import { WrongRoleException } from "@/roles/exceptions/wrong-role.exception";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -27,6 +28,14 @@ export class RolesGuard implements CanActivate {
             throw new UnauthorizedException();
         }
 
-        return requiredRoles.some((role) => request.user.roleID === role);
+        const allowAccess = requiredRoles.some(
+            (role) => request.user.roleID === role,
+        );
+
+        if (!allowAccess) {
+            throw new WrongRoleException();
+        }
+
+        return true;
     }
 }

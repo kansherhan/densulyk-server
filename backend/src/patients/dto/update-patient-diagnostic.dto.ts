@@ -1,6 +1,9 @@
+import { IsString } from "class-validator";
+
 export class UpdatePatientDiagnosticDto {
-    userID: number;
-    doctorID: number;
+    @IsString()
     diagnosis_name: string;
+
+    @IsString()
     recommendation: string;
 }
