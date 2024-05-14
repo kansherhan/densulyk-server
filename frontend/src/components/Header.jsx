@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import {
   AUTH_LOGIN_PAGE,
@@ -12,25 +12,9 @@ import logoIcon from "../assets/svg/logo.svg";
 import callIcon from "../assets/svg/header/call.svg";
 import timeIcon from "../assets/svg/header/time.svg";
 import locationIcon from "../assets/svg/header/location.svg";
-import { useSelector } from "react-redux";
 
 export function Header() {
   const token = useSelector((state) => state.auth.token);
-
-  const [navigations] = useState([
-    {
-      label: "Главная",
-      url: INDEX_PAGE,
-    },
-    {
-      label: "О Нас",
-      url: `${INDEX_PAGE}#about`,
-    },
-    {
-      label: "Контакты",
-      url: `#contacts`,
-    },
-  ]);
 
   return (
     <header className="root-header">
@@ -47,7 +31,7 @@ export function Header() {
                 <img src={callIcon} alt="call, phone" />
 
                 <div className="text">
-                  <span className="label">Energency Call:</span>
+                  <span className="label">Экстренный звонок:</span>
                   <span className="value">+7 777 777 77 77</span>
                 </div>
               </div>
@@ -56,8 +40,8 @@ export function Header() {
                 <img src={timeIcon} alt="call, phone" />
 
                 <div className="text">
-                  <span className="label">Work Hours:</span>
-                  <span className="value">8:00-22:00 everyday</span>
+                  <span className="label">Рабочие часы:</span>
+                  <span className="value">8:00-22:00</span>
                 </div>
               </div>
 
@@ -65,8 +49,8 @@ export function Header() {
                 <img src={locationIcon} alt="call, phone" />
 
                 <div className="text">
-                  <span className="label">Location:</span>
-                  <span className="value">Zhandosova Manasa</span>
+                  <span className="label">Местоположение:</span>
+                  <span className="value">st. Zhandosova Manasa 34/1</span>
                 </div>
               </div>
             </div>
@@ -78,11 +62,15 @@ export function Header() {
         <div className="container">
           <div className="inner">
             <nav className="navigations">
-              {navigations.map((nav) => (
-                <Link key={nav.url} to={nav.url} className="link-text">
-                  {nav.label}
-                </Link>
-              ))}
+              <Link to={INDEX_PAGE} className="link-text">
+                Главная страница
+              </Link>
+              <a href="#about" className="link-text">
+                О Нас
+              </a>
+              <a href="#contacts" className="link-text">
+                Контакты
+              </a>
             </nav>
 
             {!token ? (

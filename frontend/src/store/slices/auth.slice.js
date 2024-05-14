@@ -36,8 +36,12 @@ export const authSlice = createSlice({
     emailVerify: (state) => {
       state.isAuthorized = true;
     },
+    logout: () => {
+      localStorage.removeItem(USER_TOKEN_LOCALSTORAGE_KEY);
+      window.location.reload();
+    },
   },
 });
 
-export const { login, register, emailVerify } = authSlice.actions;
+export const { login, register, emailVerify, logout } = authSlice.actions;
 export default authSlice.reducer;

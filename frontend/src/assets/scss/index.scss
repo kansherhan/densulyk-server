@@ -39,11 +39,19 @@ button {
   margin: 0 auto;
 }
 
+.dashboard-layout {
+  background: #fff;
+
+  padding: 50px 0;
+}
+
 @import "./animation";
 
 @import "components/ui/text-input";
 @import "components/ui/button";
 @import "components/ui/tag";
+
+@import "components/info-panel";
 
 @import "components/header";
 @import "components/footer";

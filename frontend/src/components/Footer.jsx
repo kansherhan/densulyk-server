@@ -1,6 +1,9 @@
 import lightLogoIcon from "../assets/svg/light-logo.svg";
+import { useLocation } from "react-router-dom";
 
 export function Footer() {
+  const location = useLocation();
+
   return (
     <footer id="contacts" className="root-footer">
       <div className="top">
@@ -18,13 +21,15 @@ export function Footer() {
               </p>
             </div>
 
-            <div className="links">
-              <h4 className="title">Важные Ссылки</h4>
+            {location.pathname === "/" && (
+              <div className="links">
+                <h4 className="title">Важные Ссылки</h4>
 
-              <a href="#">Главная</a>
-              <a href="#">О Нас</a>
-              <a href="#">Контакты</a>
-            </div>
+                <a href="#">Главная</a>
+                <a href="#">О Нас</a>
+                <a href="#">Контакты</a>
+              </div>
+            )}
 
             <div className="contacts links">
               <h4 className="title">Контакты</h4>

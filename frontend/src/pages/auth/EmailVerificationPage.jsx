@@ -17,7 +17,7 @@ export function EmailVerificationPage() {
 
   const formik = useFormik({
     initialValues: {
-      code: 0,
+      code: "",
     },
     validationSchema: Yup.object({
       code: Yup.number().required(),

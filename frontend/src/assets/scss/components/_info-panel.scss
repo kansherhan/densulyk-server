@@ -1,0 +1,33 @@
+.info-panel {
+  .title {
+    color: #035d67;
+    background: #ebf2f3;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 27px;
+    font-weight: 700;
+  }
+
+  .items {
+    .item {
+      color: #035d67;
+      background: #ebf2f3;
+      margin-top: 10px;
+      padding: 25px;
+
+      .label {
+        font-weight: 500;
+        color: #7793ae;
+        font-size: 18px;
+      }
+
+      .value {
+        font-weight: 600;
+        color: #035d67;
+        font-size: 21px;
+
+        margin-top: 10px;
+      }
+    }
+  }
+}

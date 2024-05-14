@@ -9,5 +9,9 @@ export function DashboardLayout() {
     return <Navigate to={AUTH_LOGIN_PAGE} />;
   }
 
-  return <Outlet />;
+  return (
+    <div className="dashboard-layout">
+      <Outlet />
+    </div>
+  );
 }
