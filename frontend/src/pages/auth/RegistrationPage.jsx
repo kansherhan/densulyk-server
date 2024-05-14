@@ -1,21 +1,19 @@
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_LOGIN_PAGE,
-  DASHBOARD_PAGE,
 } from "../../constants/pages.js";
-import { login } from "../../store/slices/auth.slice.js";
+import AuthService from "../../services/auth.service.js";
+import { register } from "../../store/slices/auth.slice.js";
 import { TextInput } from "../../components/TextInput.jsx";
 import { Button } from "../../components/Button.jsx";
-import AuthService from "../../services/auth.service.js";
 
 export function RegistrationPage() {
-  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -36,7 +34,7 @@ export function RegistrationPage() {
     onSubmit: async () => {
       const { data } = await refetch();
 
-      dispatch(login(data));
+      dispatch(register(data));
 
       navigate(AUTH_EMAIL_VERIFICATION_PAGE);
     },
@@ -48,10 +46,6 @@ export function RegistrationPage() {
     enabled: false,
     retry: false,
   });
-
-  if (token !== null) {
-    return <Navigate to={DASHBOARD_PAGE} />;
-  }
 
   return (
     <div className="auth-page">

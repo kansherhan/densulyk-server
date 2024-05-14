@@ -16,6 +16,7 @@ import {
 import { store } from "./store/index.jsx";
 
 import { AppLayout } from "./layouts/AppLayout.jsx";
+import { AuthLayout } from "./layouts/AuthLayout.jsx";
 
 import { IndexPage } from "./pages/IndexPage.jsx";
 import { DashboardPage } from "./pages/DashboardPage.jsx";
@@ -23,6 +24,7 @@ import { DashboardPage } from "./pages/DashboardPage.jsx";
 import { LoginPage } from "./pages/auth/LoginPage.jsx";
 import { RegistrationPage } from "./pages/auth/RegistrationPage.jsx";
 import { EmailVerificationPage } from "./pages/auth/EmailVerificationPage.jsx";
+import { DashboardLayout } from "./layouts/DashboardLayout.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,17 +42,21 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route element={<AppLayout />}>
             <Route index path={INDEX_PAGE} element={<IndexPage />} />
 
-            <Route path={DASHBOARD_PAGE} element={<DashboardPage />} />
+            <Route element={<DashboardLayout />}>
+              <Route path={DASHBOARD_PAGE} element={<DashboardPage />} />
+            </Route>
 
-            <Route path={AUTH_LOGIN_PAGE} element={<LoginPage />} />
-            <Route
-              path={AUTH_REGISTRATION_PAGE}
-              element={<RegistrationPage />}
-            />
-            <Route
-              path={AUTH_EMAIL_VERIFICATION_PAGE}
-              element={<EmailVerificationPage />}
-            />
+            <Route element={<AuthLayout />}>
+              <Route path={AUTH_LOGIN_PAGE} element={<LoginPage />} />
+              <Route
+                path={AUTH_REGISTRATION_PAGE}
+                element={<RegistrationPage />}
+              />
+              <Route
+                path={AUTH_EMAIL_VERIFICATION_PAGE}
+                element={<EmailVerificationPage />}
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

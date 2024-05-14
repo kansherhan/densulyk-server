@@ -16,6 +16,7 @@ import { BearerToken } from "@/utilities/bearer-token";
 import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
 import { EmailVerificationErrorException } from "@/auth/exceptions/email-verification-error.exception";
 import { Random } from "@/utilities/random";
+import { EmailNotVerifyException } from "@/users/exceptions/email-not-verify.exception";
 
 @Injectable()
 export class AuthService {
@@ -30,10 +31,16 @@ export class AuthService {
     public async login(authLoginDto: AuthLoginDto): Promise<UserToken> {
         const user: User = await this.validateUser(authLoginDto);
 
-        return await this.userTokenModel.create({
+        const token = await this.userTokenModel.create({
             userID: user.id,
             token: BearerToken.generate(),
         });
+
+        if (user.emailVerified) {
+            return token;
+        } else {
+            throw new EmailNotVerifyException(token);
+        }
     }
 
     public async registration(authRegistrationDto: AuthRegistrationDto) {

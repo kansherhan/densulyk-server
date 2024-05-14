@@ -1,4 +1,4 @@
-import AxiosInstance from "axios";
+import AxiosInstance, { AxiosError } from "axios";
 
 import { USER_TOKEN_LOCALSTORAGE_KEY } from "./constants/app.js";
 
@@ -26,7 +26,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response) {
+    if (error instanceof AxiosError) {
       const message = error.response.data.message;
 
       if (message) {

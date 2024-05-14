@@ -1,10 +1,11 @@
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
+  AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_REGISTRATION_PAGE,
   DASHBOARD_PAGE,
 } from "../../constants/pages.js";
@@ -12,9 +13,10 @@ import { TextInput } from "../../components/TextInput.jsx";
 import { Button } from "../../components/Button.jsx";
 import AuthService from "../../services/auth.service.js";
 import { login } from "../../store/slices/auth.slice.js";
+import { AxiosError } from "axios";
+import { HTTP_STATUS_EMAIL_NOT_VERIFY } from "../../constants/http-status.js";
 
 export function LoginPage() {
-  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -29,11 +31,20 @@ export function LoginPage() {
       password: Yup.string().min(6).max(255).required(),
     }),
     onSubmit: async () => {
-      const { data } = await refetch();
+      const { data, error, isError } = await refetch();
 
-      dispatch(login(data));
+      if (
+        error instanceof AxiosError &&
+        error.response.status === HTTP_STATUS_EMAIL_NOT_VERIFY
+      ) {
+        dispatch(login(data));
 
-      navigate(DASHBOARD_PAGE);
+        navigate(AUTH_EMAIL_VERIFICATION_PAGE);
+      } else if (!isError) {
+        dispatch(login(data));
+
+        navigate(DASHBOARD_PAGE);
+      }
     },
   });
 
@@ -43,10 +54,6 @@ export function LoginPage() {
     enabled: false,
     retry: false,
   });
-
-  if (token !== null) {
-    return <Navigate to={DASHBOARD_PAGE} />;
-  }
 
   return (
     <div className="auth-page">

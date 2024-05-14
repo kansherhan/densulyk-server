@@ -1,0 +1,1 @@
+export const HTTP_STATUS_EMAIL_NOT_VERIFY = 600;
