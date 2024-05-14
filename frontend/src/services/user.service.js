@@ -3,7 +3,7 @@ import { getResponseData } from "../helper.js";
 
 class UserService {
   async getCurrentUserInfo() {
-    return getResponseData(http.get("/users/me"));
+    return getResponseData(await http.get("/users/me"));
   }
 }
 

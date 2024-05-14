@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { AUTH_LOGIN_PAGE, INDEX_PAGE } from "../constants/pages.js";
+import {
+  AUTH_LOGIN_PAGE,
+  DASHBOARD_PAGE,
+  INDEX_PAGE,
+} from "../constants/pages.js";
 
 import logoIcon from "../assets/svg/logo.svg";
 
 import callIcon from "../assets/svg/header/call.svg";
 import timeIcon from "../assets/svg/header/time.svg";
 import locationIcon from "../assets/svg/header/location.svg";
+import { useSelector } from "react-redux";
 
 export function Header() {
+  const token = useSelector((state) => state.auth.token);
+
   const [navigations] = useState([
     {
       label: "Главная",
@@ -78,9 +85,15 @@ export function Header() {
               ))}
             </nav>
 
-            <Link to={AUTH_LOGIN_PAGE} className="link-text">
-              Войти
-            </Link>
+            {!token ? (
+              <Link to={AUTH_LOGIN_PAGE} className="link-text">
+                Войти
+              </Link>
+            ) : (
+              <Link to={DASHBOARD_PAGE} className="link-text">
+                Личный кабинет
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -1,17 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useFormik } from "formik";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
 
-import { TextInput } from "../../components/TextInput.jsx";
-import { Button } from "../../components/Button.jsx";
 import {
   AUTH_REGISTRATION_PAGE,
   DASHBOARD_PAGE,
 } from "../../constants/pages.js";
+import { TextInput } from "../../components/TextInput.jsx";
+import { Button } from "../../components/Button.jsx";
 import AuthService from "../../services/auth.service.js";
-import { useContextStore } from "../../store/index.jsx";
+import { login } from "../../store/slices/auth.slice.js";
 
 export function LoginPage() {
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -23,16 +28,25 @@ export function LoginPage() {
       email: Yup.string().email().required(),
       password: Yup.string().min(6).max(255).required(),
     }),
-    onSubmit: async (values) => {
-      const responseData = await AuthService.login(values);
+    onSubmit: async () => {
+      const { data } = await refetch();
 
-      login(responseData);
+      dispatch(login(data));
 
       navigate(DASHBOARD_PAGE);
     },
   });
 
-  const { login } = useContextStore();
+  const { isLoading, refetch } = useQuery({
+    queryKey: ["auth-login"],
+    queryFn: () => AuthService.login(formik.values),
+    enabled: false,
+    retry: false,
+  });
+
+  if (token !== null) {
+    return <Navigate to={DASHBOARD_PAGE} />;
+  }
 
   return (
     <div className="auth-page">
@@ -67,7 +81,12 @@ export function LoginPage() {
           value={formik.values.password}
         />
 
-        <Button className="submit-button" type="submit" label="Войти" />
+        <Button
+          className="submit-button"
+          type="submit"
+          label="Войти"
+          loading={isLoading}
+        />
 
         <p className="link">
           <span>Нет аккаунта? </span>
