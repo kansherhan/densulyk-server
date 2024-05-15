@@ -15,8 +15,6 @@ export function UserInfo() {
     return <div>Loading...</div>;
   }
 
-  console.log(data);
-
   return (
     <div className="user-info-page">
       <div className="container">
