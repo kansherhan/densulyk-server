@@ -6,7 +6,6 @@ import { Doctor } from "@/doctors/models/doctors.model";
 
 import { UserToken } from "@/users/models/user-tokens.model";
 import { User, UserCreationAttributes } from "./models/users.model";
-import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
 
 const USER_EXCLUDE_COLUMN: string[] = ["password"];
@@ -101,12 +100,5 @@ export class UsersService {
             include: User,
             order: [["createdAt", "DESC"]],
         });
-    }
-
-    async updateCurrentUser(
-        user: User,
-        updateUserDto: UpdateUserDto,
-    ): Promise<void> {
-        await user.update(updateUserDto);
     }
 }

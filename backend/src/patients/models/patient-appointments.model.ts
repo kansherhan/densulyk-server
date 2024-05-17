@@ -13,7 +13,7 @@ export interface PatientAppointmentCreationAttributes {
     userID: number;
     doctorID: number;
     date: string | Date;
-    user_comment: string;
+    userComment: string;
 }
 
 @Table({
@@ -62,5 +62,12 @@ export class PatientAppointment extends Model<
         type: DataType.STRING,
         allowNull: false,
     })
-    user_comment: string;
+    userComment: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: false,
+    })
+    isMeeted: boolean;
 }

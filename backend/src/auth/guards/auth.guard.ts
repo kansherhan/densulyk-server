@@ -43,11 +43,6 @@ export class AuthGuard implements CanActivate {
         );
 
         if (userToken) {
-            // Лишний фунционал, проверка жизни токена
-            // if (!BearerToken.validateTokenLife(userToken)) {
-            //     throw new BearerTokenLifeExpiredException();
-            // }
-
             request.user = userToken.user;
 
             return true;

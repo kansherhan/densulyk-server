@@ -12,7 +12,7 @@ import { User } from "@/users/models/users.model";
 export interface PatientDiagnosticCreationAttributes {
     userID: number;
     doctorID: number;
-    diagnosis_name: string;
+    diagnosisName: string;
     recommendation: string;
 }
 
@@ -55,11 +55,24 @@ export class PatientDiagnostic extends Model<
         type: DataType.STRING,
         allowNull: false,
     })
-    diagnosis_name: string;
+    diagnosisName: string;
 
     @Column({
         type: DataType.TEXT,
         allowNull: false,
     })
     recommendation: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+        defaultValue: false,
+    })
+    completed: boolean;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    documentUrl: string;
 }

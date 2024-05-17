@@ -1,4 +1,10 @@
-import { IsEmail, IsString, Length } from "class-validator";
+import {
+    IsBoolean,
+    IsDateString,
+    IsEmail,
+    IsString,
+    Length,
+} from "class-validator";
 
 export class AuthRegistrationDto {
     @IsString()
@@ -16,4 +22,18 @@ export class AuthRegistrationDto {
     @IsString()
     @Length(6, 255)
     readonly password: string;
+
+    @IsString()
+    @Length(1, 255)
+    inn: string;
+
+    @IsDateString()
+    birthdate: Date | string;
+
+    @IsBoolean()
+    gender: boolean;
+
+    @IsString()
+    @Length(1, 255)
+    address: string;
 }

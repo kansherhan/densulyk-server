@@ -1,11 +1,19 @@
 import { Model, Table, Column, DataType, HasOne } from "sequelize-typescript";
+
 import { Doctor } from "@/doctors/models/doctors.model";
+import { UserRole } from "@/roles/roles.entity";
 
 export interface UserCreationAttributes {
     firstName: string;
     lastName: string;
+
     email: string;
     password: string;
+
+    inn: string;
+    birthdate: Date | string;
+    gender: boolean;
+    address: string;
 }
 
 @Table({
@@ -47,6 +55,30 @@ export class User extends Model<User, UserCreationAttributes> {
     password: string;
 
     @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    inn: string;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: false,
+    })
+    birthdate: Date;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+    })
+    gender: boolean;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    address: string;
+
+    @Column({
         type: DataType.BOOLEAN,
         allowNull: false,
         defaultValue: false,
@@ -56,7 +88,7 @@ export class User extends Model<User, UserCreationAttributes> {
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
-        defaultValue: 1,
+        defaultValue: UserRole.Patient,
     })
     roleID: number;
 

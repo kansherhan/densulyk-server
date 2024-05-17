@@ -1,18 +1,9 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Param,
-    ParseIntPipe,
-    Patch,
-    Req,
-    HttpCode,
-    HttpStatus,
-} from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Req } from "@nestjs/common";
 
 import { UsersService } from "./users.service";
 
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { Roles } from "@/roles/decorators/roles-auth.decorator";
+import { UserRole } from "@/roles/roles.entity";
 
 import { AuthenticatedRequest } from "@/types/requests";
 
@@ -26,19 +17,8 @@ export class UsersController {
     }
 
     @Get(":id")
+    @Roles(UserRole.Admin, UserRole.Patient)
     async getUser(@Param("id", ParseIntPipe) userID: number) {
         return await this.usersService.getUserByID(userID);
-    }
-
-    @Patch()
-    @HttpCode(HttpStatus.NO_CONTENT)
-    async updateUser(
-        @Req() request: AuthenticatedRequest,
-        @Body() updateUserDto: UpdateUserDto,
-    ) {
-        return await this.usersService.updateCurrentUser(
-            request.user,
-            updateUserDto,
-        );
     }
 }
