@@ -2,9 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
 import { CreatePatientAppointmentDto } from "@/patients/dto/create-patient-appointment.dto";
-import { CreateAndUpdatePatientDto } from "@/patients/dto/create-and-update-patient.dto";
 
-import { Patient } from "./models/patients.model";
 import { PatientDiagnostic } from "./models/patient-diagnostics.model";
 import { PatientAppointment } from "./models/patient-appointments.model";
 import { CreatePatientDiagnosticDto } from "@/patients/dto/create-patient-diagnostic.dto";
@@ -16,9 +14,6 @@ import { PatientDiagnosticNotFoundException } from "@/patients/exceptions/Patien
 @Injectable()
 export class PatientsService {
     constructor(
-        @InjectModel(Patient)
-        private readonly patientModel: typeof Patient,
-
         @InjectModel(PatientDiagnostic)
         private readonly patientDiagnosticModel: typeof PatientDiagnostic,
 
@@ -55,23 +50,6 @@ export class PatientsService {
                 },
             ],
         });
-    }
-
-    async updatePatientInfo(dto: CreateAndUpdatePatientDto): Promise<Patient> {
-        const patient = await this.patientModel.findOne({
-            where: {
-                userID: dto.userID,
-            },
-        });
-
-        if (patient) {
-            await patient.update(dto);
-            await patient.save();
-
-            return patient;
-        } else {
-            return await this.patientModel.create(dto);
-        }
     }
 
     async getAllPatientDiagnostic(patient: User) {

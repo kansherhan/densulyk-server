@@ -2,12 +2,12 @@ import * as bcrypt from "bcryptjs";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
+import { Doctor } from "@/doctors/models/doctors.model";
+
 import { UserToken } from "@/users/models/user-tokens.model";
 import { User, UserCreationAttributes } from "./models/users.model";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
-import { Patient } from "@/patients/models/patients.model";
-import { Doctor } from "@/doctors/models/doctors.model";
 
 const USER_EXCLUDE_COLUMN: string[] = ["password"];
 
@@ -32,7 +32,7 @@ export class UsersService {
             attributes: {
                 exclude: USER_EXCLUDE_COLUMN,
             },
-            include: [Patient, Doctor],
+            include: [Doctor],
         });
     }
 

@@ -5,7 +5,6 @@ import { User } from "@/users/models/users.model";
 import { UserToken } from "@/users/models/user-tokens.model";
 import { UserEmailVerification } from "@/users/models/user-email-verifications.model";
 
-import { Patient } from "@/patients/models/patients.model";
 import { PatientDiagnostic } from "@/patients/models/patient-diagnostics.model";
 import { PatientAppointment } from "@/patients/models/patient-appointments.model";
 
@@ -28,7 +27,6 @@ export const CreateDatabaseModule = (): DynamicModule => {
             UserToken,
             UserEmailVerification,
 
-            Patient,
             PatientDiagnostic,
             PatientAppointment,
 

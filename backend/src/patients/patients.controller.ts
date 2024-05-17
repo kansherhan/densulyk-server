@@ -15,7 +15,6 @@ import { Roles } from "@/roles/decorators/roles-auth.decorator";
 
 import { PatientsService } from "@/patients/patients.service";
 
-import { CreateAndUpdatePatientDto } from "@/patients/dto/create-and-update-patient.dto";
 import { CreatePatientAppointmentDto } from "@/patients/dto/create-patient-appointment.dto";
 import { CreatePatientDiagnosticDto } from "@/patients/dto/create-patient-diagnostic.dto";
 import { UpdatePatientDiagnosticDto } from "@/patients/dto/update-patient-diagnostic.dto";
@@ -42,18 +41,6 @@ export class PatientsController {
             request.user,
             dto,
         );
-    }
-
-    @Get("patient-info")
-    @Roles(UserRole.Patient)
-    async getCurrentPatientInfo(@Req() request: AuthenticatedRequest) {
-        return request.user.patient;
-    }
-
-    @Post("patient-info")
-    @Roles(UserRole.Doctor, UserRole.Admin)
-    async updatePatientInfo(@Body() dto: CreateAndUpdatePatientDto) {
-        return await this.patientsService.updatePatientInfo(dto);
     }
 
     @Get("patient-all-diagnostic")
