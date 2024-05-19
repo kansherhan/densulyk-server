@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
 import { IoIosArrowBack } from "react-icons/io";
 
 import {
@@ -13,8 +14,8 @@ import logoIcon from "../assets/svg/logo.svg";
 import callIcon from "../assets/svg/header/call.svg";
 import timeIcon from "../assets/svg/header/time.svg";
 import locationIcon from "../assets/svg/header/location.svg";
-import { useQueryClient } from "@tanstack/react-query";
 import { logout } from "../store/slices/auth.slice.js";
+import { backPage } from "../store/slices/settings.slice.js";
 
 export function Header() {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ export function Header() {
   const queryClient = useQueryClient();
 
   const token = useSelector((state) => state.auth.token);
-  const backPage = useSelector((state) => state.settings.headersBackPage);
+  const headersBackPage = useSelector(
+    (state) => state.settings.headersBackPage
+  );
   const dispatch = useDispatch();
 
   const navigationLinks = [
@@ -45,14 +48,13 @@ export function Header() {
     e.preventDefault();
 
     queryClient.clear();
-
     dispatch(logout());
   };
 
-  console.log(backPage);
+  const getLastBackPageItem = () => headersBackPage[headersBackPage.length - 1];
 
   return (
-    <header className={"root-header " + (backPage ? "back-page" : "")}>
+    <header className={"root-header " + (headersBackPage ? "back-page" : "")}>
       <div className="top">
         <div className="container">
           <div className="inner">
@@ -96,13 +98,14 @@ export function Header() {
       <div className="bottom">
         <div className="container">
           <div className="inner">
-            {backPage ? (
+            {headersBackPage.length ? (
               <Link
-                to={backPage.url}
+                to={getLastBackPageItem().url}
                 className="link-text display:flex align-items:center"
+                onClick={() => dispatch(backPage())}
               >
                 <IoIosArrowBack size={21} className="margin-right:15" />
-                <span>{backPage.title}</span>
+                <span>{getLastBackPageItem().title}</span>
               </Link>
             ) : (
               <>

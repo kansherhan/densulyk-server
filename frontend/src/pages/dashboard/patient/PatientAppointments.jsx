@@ -1,21 +1,12 @@
+import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
+
 import PatientService from "../../../services/patient.service.js";
 import { LoadingPanel } from "../../../components/LoadingPanel.jsx";
 import { AppointmentCard } from "../../../components/AppointmentCard.jsx";
-import moment from "moment";
 import { SpacePanel } from "../../../components/SpacePanel.jsx";
-import { useDispatch } from "react-redux";
-import { setHeaderBackPage } from "../../../store/slices/settings.slice.js";
-import { createDashboardHeaderBackPage } from "../../../helper.js";
-import { useEffect } from "react";
 
 export function PatientAppointments() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setHeaderBackPage(createDashboardHeaderBackPage()));
-  }, []);
-
   const { data, isLoading } = useQuery({
     queryKey: ["patient-appointments"],
     queryFn: () => PatientService.getAllAppointments(),

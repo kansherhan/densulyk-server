@@ -1,7 +1,16 @@
 import peopleIcon from "../assets/svg/pages/main/people.svg";
 import servicesBannerImage from "/images/main-page-services-banner.png";
+import { useEffect } from "react";
+import { clearBackPage } from "../store/slices/settings.slice.js";
+import { useDispatch } from "react-redux";
 
 export function IndexPage() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearBackPage());
+  }, []);
+
   return (
     <div className="main-page">
       <section className="hero">

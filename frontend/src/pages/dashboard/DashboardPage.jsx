@@ -5,9 +5,13 @@ import { useDispatch } from "react-redux";
 
 import UserService from "../../services/user.service.js";
 import { ROLES } from "../../constants/roles.js";
-import { setHeaderBackPage } from "../../store/slices/settings.slice.js";
+import {
+  addBackPage,
+  clearBackPage,
+} from "../../store/slices/settings.slice.js";
 import { NAVIGATIONS } from "../../constants/dashboard.js";
 import { LoadingPanel } from "../../components/LoadingPanel.jsx";
+import { createDashboardHeaderBackPage } from "../../helper.js";
 
 export function DashboardPage() {
   const dispatch = useDispatch();
@@ -19,7 +23,7 @@ export function DashboardPage() {
   });
 
   useEffect(() => {
-    dispatch(setHeaderBackPage(null));
+    dispatch(clearBackPage());
   }, []);
 
   if (isLoading) {
@@ -45,7 +49,13 @@ export function DashboardPage() {
 
         <div className="navigation-buttons">
           {NAVIGATIONS[data.roleID].map((button) => (
-            <Link key={button.link} to={button.link}>
+            <Link
+              key={button.link}
+              to={button.link}
+              onClick={() =>
+                dispatch(addBackPage(createDashboardHeaderBackPage()))
+              }
+            >
               {button.text}
             </Link>
           ))}

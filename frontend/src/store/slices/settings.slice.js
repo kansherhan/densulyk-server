@@ -17,11 +17,8 @@ export const settingsSlice = createSlice({
     clearBackPage: (state) => {
       state.headersBackPage = [];
     },
-    setHeaderBackPage: (state, action) => {
-      state.headersBackPage = action.payload;
-    },
   },
 });
 
-export const { setHeaderBackPage } = settingsSlice.actions;
+export const { addBackPage, backPage, clearBackPage } = settingsSlice.actions;
 export default settingsSlice.reducer;
