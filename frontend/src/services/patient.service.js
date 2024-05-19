@@ -11,6 +11,10 @@ class PatientService {
       await http.post("/patients/create-patient-appointment", data)
     );
   }
+
+  async getAllAppointments() {
+    return getResponseData(await http.get("/patients/patient-all-appointment"));
+  }
 }
 
 export default new PatientService();

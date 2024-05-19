@@ -3,6 +3,10 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
+import DatePicker from "react-date-picker";
+import Toggle from "react-toggle";
+import { TbManFilled } from "react-icons/tb";
+import { TbWomanFilled } from "react-icons/tb";
 
 import {
   AUTH_EMAIL_VERIFICATION_PAGE,
@@ -12,6 +16,7 @@ import AuthService from "../../services/auth.service.js";
 import { register } from "../../store/slices/auth.slice.js";
 import { TextInput } from "../../components/TextInput.jsx";
 import { Button } from "../../components/Button.jsx";
+import { genderText } from "../../helper.js";
 
 export function RegistrationPage() {
   const dispatch = useDispatch();
@@ -24,12 +29,20 @@ export function RegistrationPage() {
       lastName: "",
       email: "",
       password: "",
+      inn: "",
+      birthdate: new Date(),
+      gender: false,
+      address: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().min(2).max(30).required(),
       lastName: Yup.string().min(2).max(30).required(),
       email: Yup.string().email().required(),
       password: Yup.string().min(6).max(255).required(),
+      inn: Yup.string().min(12).max(12).required(),
+      birthdate: Yup.date().required(),
+      gender: Yup.bool().required(),
+      address: Yup.string().required(),
     }),
     onSubmit: async () => {
       const { data } = await refetch();
@@ -102,6 +115,53 @@ export function RegistrationPage() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
+        />
+
+        <TextInput
+          id="inn"
+          name="inn"
+          type="text"
+          placeholder="ИНН"
+          inputTouched={formik.touched.inn}
+          errorText={formik.errors.inn}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.inn}
+        />
+
+        <DatePicker
+          id="birthdate"
+          name="birthdate"
+          onChange={(value) => formik.setFieldValue("birthdate", value)}
+          onBlur={formik.handleBlur}
+          value={formik.values.birthdate}
+        />
+
+        <div className="input-with-text">
+          <Toggle
+            id="gender"
+            name="gender"
+            icons={{
+              checked: <TbWomanFilled size={21} color={"#fff"} />,
+              unchecked: <TbManFilled size={21} color={"#fff"} />,
+            }}
+            defaultChecked={formik.values.gender}
+            onChange={(e) => formik.setFieldValue("gender", e.target.checked)}
+          />
+
+          <span className="text">{genderText(formik.values.gender)}</span>
+        </div>
+
+        <TextInput
+          id="address"
+          name="address"
+          type="text"
+          placeholder="Адрес проживания"
+          inputTouched={formik.touched.address}
+          errorText={formik.errors.address}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.address}
         />
 
         <Button

@@ -1,42 +1,29 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import {
-  DASHBOARD_PATIENT_APPOINTMENT,
-  DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
-  DASHBOARD_USER_INFO_PAGE,
-} from "../../constants/pages.js";
 import UserService from "../../services/user.service.js";
 import { ROLES } from "../../constants/roles.js";
-import { Link } from "react-router-dom";
+import { setHeaderBackPage } from "../../store/slices/settings.slice.js";
+import { NAVIGATIONS } from "../../constants/dashboard.js";
+import { LoadingPanel } from "../../components/LoadingPanel.jsx";
 
 export function DashboardPage() {
+  const dispatch = useDispatch();
+
   const { isLoading, data } = useQuery({
     queryKey: ["user-info"],
     queryFn: () => UserService.getCurrentUserInfo(),
     retry: false,
   });
 
-  const navigationButtons = [
-    {
-      link: DASHBOARD_USER_INFO_PAGE,
-      text: "Личные данные",
-    },
-    {
-      link: DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
-      text: "АНАЛИЗЫ",
-    },
-    {
-      link: DASHBOARD_PATIENT_APPOINTMENT,
-      text: "пРИЕМЫ",
-    },
-    {
-      link: DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
-      text: "Записаться на Прием",
-    },
-  ];
+  useEffect(() => {
+    dispatch(setHeaderBackPage(null));
+  }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingPanel />;
   }
 
   return (
@@ -57,7 +44,7 @@ export function DashboardPage() {
         </div>
 
         <div className="navigation-buttons">
-          {navigationButtons.map((button) => (
+          {NAVIGATIONS[data.roleID].map((button) => (
             <Link key={button.link} to={button.link}>
               {button.text}
             </Link>

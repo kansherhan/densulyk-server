@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { InfoPanel } from "../../components/InfoPanel.jsx";
 import UserService from "../../services/user.service.js";
+import { genderText } from "../../helper.js";
+import { ROLES } from "../../constants/roles.js";
 
 export function UserInfo() {
   const { isLoading, data } = useQuery({
@@ -22,30 +24,37 @@ export function UserInfo() {
           title={"Данные о пользователе"}
           items={[
             {
-              label: "Адресс",
-              value: data.patient.address,
+              label: "ИИН",
+              value: data.inn,
             },
             {
-              label: "Номер",
-              value: data.patient.phone,
+              label: "Имя",
+              value: data.firstName,
+            },
+            {
+              label: "Фамилия",
+              value: data.lastName,
             },
             {
               label: "Пол",
-              value: !data.patient.gender ? "Мужкой" : "Женский",
+              value: genderText(data.gender),
             },
             {
-              label: "Рост",
-              value: data.patient.height,
+              label: "Роль",
+              value: ROLES[data.roleID - 1],
             },
             {
-              label: "Вес",
-              value: data.patient.whole,
+              label: "Специальность",
+              value: data.doctor?.speciality,
+              hidden: data.roleID !== 2,
             },
             {
-              label: "Данные обновились",
-              value: moment(data.patient.updatedAt).format(
-                "HH:mm:ss DD.MM.YYYY"
-              ),
+              label: "Дата рождения",
+              value: moment(data.birthdate).format("DD.MM.YYYY"),
+            },
+            {
+              label: "Адрес проживания",
+              value: data.address,
             },
           ]}
         />

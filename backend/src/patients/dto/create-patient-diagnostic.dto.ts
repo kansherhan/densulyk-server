@@ -5,7 +5,7 @@ export class CreatePatientDiagnosticDto {
     userID: number;
 
     @IsString()
-    diagnosis_name: string;
+    diagnosisName: string;
 
     @IsString()
     recommendation: string;

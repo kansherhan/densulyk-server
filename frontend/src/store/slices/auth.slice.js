@@ -36,8 +36,12 @@ export const authSlice = createSlice({
     emailVerify: (state) => {
       state.isAuthorized = true;
     },
-    logout: () => {
+    logout: (state) => {
+      state.isAuthorized = false;
+      state.token = null;
+
       localStorage.removeItem(USER_TOKEN_LOCALSTORAGE_KEY);
+
       window.location.reload();
     },
   },

@@ -2,7 +2,7 @@ import { IsString } from "class-validator";
 
 export class UpdatePatientDiagnosticDto {
     @IsString()
-    diagnosis_name: string;
+    diagnosisName: string;
 
     @IsString()
     recommendation: string;

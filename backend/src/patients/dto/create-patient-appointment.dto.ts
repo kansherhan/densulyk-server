@@ -8,5 +8,5 @@ export class CreatePatientAppointmentDto {
     date: string | Date;
 
     @IsString()
-    user_comment: string;
+    userComment: string;
 }

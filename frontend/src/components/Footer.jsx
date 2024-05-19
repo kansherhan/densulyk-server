@@ -1,5 +1,7 @@
-import lightLogoIcon from "../assets/svg/light-logo.svg";
 import { useLocation } from "react-router-dom";
+
+import lightLogoIcon from "../assets/svg/light-logo.svg";
+import { INDEX_PAGE } from "../constants/pages.js";
 
 export function Footer() {
   const location = useLocation();
@@ -21,13 +23,13 @@ export function Footer() {
               </p>
             </div>
 
-            {location.pathname === "/" && (
+            {location.pathname === INDEX_PAGE && (
               <div className="links">
                 <h4 className="title">Важные Ссылки</h4>
 
                 <a href="#">Главная</a>
-                <a href="#">О Нас</a>
-                <a href="#">Контакты</a>
+                <a href="#about">О Нас</a>
+                <a href="#contacts">Контакты</a>
               </div>
             )}
 

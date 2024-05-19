@@ -25,15 +25,15 @@ export class AuthRegistrationDto {
 
     @IsString()
     @Length(1, 255)
-    inn: string;
+    readonly inn: string;
 
     @IsDateString()
-    birthdate: Date | string;
+    readonly birthdate: Date | string;
 
     @IsBoolean()
-    gender: boolean;
+    readonly gender: boolean;
 
     @IsString()
     @Length(1, 255)
-    address: string;
+    readonly address: string;
 }

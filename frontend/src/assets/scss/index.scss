@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: #212427;
   background: #e5e7eb;
@@ -45,11 +49,17 @@ button {
   padding: 50px 0;
 }
 
-@import "./animation";
+@import "global";
+
+@import "animation";
 
 @import "components/ui/text-input";
 @import "components/ui/button";
 @import "components/ui/tag";
+@import "components/ui/date-picker";
+@import "components/ui/input-with-text";
+@import "components/appointment-card";
+@import "components/ui/input-select";
 
 @import "components/info-panel";
 

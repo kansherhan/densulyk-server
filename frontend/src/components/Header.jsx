@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { IoIosArrowBack } from "react-icons/io";
 
 import {
   AUTH_LOGIN_PAGE,
@@ -12,12 +13,46 @@ import logoIcon from "../assets/svg/logo.svg";
 import callIcon from "../assets/svg/header/call.svg";
 import timeIcon from "../assets/svg/header/time.svg";
 import locationIcon from "../assets/svg/header/location.svg";
+import { useQueryClient } from "@tanstack/react-query";
+import { logout } from "../store/slices/auth.slice.js";
 
 export function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryClient = useQueryClient();
+
   const token = useSelector((state) => state.auth.token);
+  const backPage = useSelector((state) => state.settings.headersBackPage);
+  const dispatch = useDispatch();
+
+  const navigationLinks = [
+    {
+      label: "Главная страница",
+      url: "#",
+    },
+    {
+      label: "О Нас",
+      url: "#about",
+    },
+    {
+      label: "Контакты",
+      url: "#contacts",
+    },
+  ];
+
+  const onExitAccount = (e) => {
+    e.preventDefault();
+
+    queryClient.clear();
+
+    dispatch(logout());
+  };
+
+  console.log(backPage);
 
   return (
-    <header className="root-header">
+    <header className={"root-header " + (backPage ? "back-page" : "")}>
       <div className="top">
         <div className="container">
           <div className="inner">
@@ -61,26 +96,47 @@ export function Header() {
       <div className="bottom">
         <div className="container">
           <div className="inner">
-            <nav className="navigations">
-              <Link to={INDEX_PAGE} className="link-text">
-                Главная страница
-              </Link>
-              <a href="#about" className="link-text">
-                О Нас
-              </a>
-              <a href="#contacts" className="link-text">
-                Контакты
-              </a>
-            </nav>
-
-            {!token ? (
-              <Link to={AUTH_LOGIN_PAGE} className="link-text">
-                Войти
+            {backPage ? (
+              <Link
+                to={backPage.url}
+                className="link-text display:flex align-items:center"
+              >
+                <IoIosArrowBack size={21} className="margin-right:15" />
+                <span>{backPage.title}</span>
               </Link>
             ) : (
-              <Link to={DASHBOARD_PAGE} className="link-text">
-                Личный кабинет
-              </Link>
+              <>
+                <nav className="navigations">
+                  {navigationLinks.map((nav) => (
+                    <a
+                      key={nav.url}
+                      href={nav.url}
+                      className="link-text"
+                      onClick={() => navigate(INDEX_PAGE)}
+                    >
+                      {nav.label}
+                    </a>
+                  ))}
+                </nav>
+
+                {!token ? (
+                  <Link to={AUTH_LOGIN_PAGE} className="link-text">
+                    Войти
+                  </Link>
+                ) : (
+                  <>
+                    {location.pathname !== DASHBOARD_PAGE ? (
+                      <Link to={DASHBOARD_PAGE} className="link-text">
+                        Личный кабинет
+                      </Link>
+                    ) : (
+                      <a className="link-text" onClick={onExitAccount}>
+                        Выйти из аккаунта
+                      </a>
+                    )}
+                  </>
+                )}
+              </>
             )}
           </div>
         </div>
