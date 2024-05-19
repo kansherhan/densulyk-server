@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req } from "@nestjs/common";
 
 import { DoctorsService } from "@/doctors/doctors.service";
 import { CreateDoctorDto } from "@/doctors/dto/create-doctor.dto";
 import { Roles } from "@/roles/decorators/roles-auth.decorator";
 import { UserRole } from "@/roles/roles.entity";
+import { AuthenticatedRequest } from "@/types/requests";
 
 @Controller()
 export class DoctorsController {
@@ -18,5 +19,13 @@ export class DoctorsController {
     @Roles(UserRole.Admin)
     async createDoctor(@Body() dto: CreateDoctorDto) {
         return await this.doctorsService.createDoctor(dto);
+    }
+
+    @Get("get-doctor-patient-appointments")
+    @Roles(UserRole.Doctor)
+    async getDoctorPatientAppointments(@Req() request: AuthenticatedRequest) {
+        return await this.doctorsService.getDoctorPatientAppointments(
+            request.user,
+        );
     }
 }

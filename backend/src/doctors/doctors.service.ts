@@ -10,6 +10,7 @@ import { CreateDoctorDto } from "@/doctors/dto/create-doctor.dto";
 
 import { UserRoleNotPatientException } from "@/doctors/exceptions/user-role-not-patient.exception";
 import { UserNotFoundException } from "@/users/exceptions/user-not-found.exception";
+import { PatientAppointment } from "@/patients/models/patient-appointments.model";
 
 @Injectable()
 export class DoctorsService {
@@ -19,6 +20,9 @@ export class DoctorsService {
 
         @InjectModel(Doctor)
         private readonly doctorModel: typeof Doctor,
+
+        @InjectModel(PatientAppointment)
+        private readonly patientAppointmentModel: typeof PatientAppointment,
     ) {}
 
     async getAllDoctors(): Promise<User[]> {
@@ -52,5 +56,14 @@ export class DoctorsService {
         await user.save();
 
         return await this.doctorModel.create(dto);
+    }
+
+    async getDoctorPatientAppointments(user: User) {
+        return await this.patientAppointmentModel.findAll({
+            where: {
+                doctorID: user.id,
+            },
+            include: { all: true },
+        });
     }
 }
