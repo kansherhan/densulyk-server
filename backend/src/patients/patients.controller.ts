@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Get,
@@ -6,7 +7,10 @@ import {
     ParseIntPipe,
     Post,
     Req,
+    UploadedFile,
+    UseInterceptors,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 import { AuthenticatedRequest } from "@/types/requests";
 
@@ -18,6 +22,8 @@ import { PatientsService } from "@/patients/patients.service";
 import { CreatePatientAppointmentDto } from "@/patients/dto/create-patient-appointment.dto";
 import { CreatePatientDiagnosticDto } from "@/patients/dto/create-patient-diagnostic.dto";
 import { UpdatePatientDiagnosticDto } from "@/patients/dto/update-patient-diagnostic.dto";
+import { diskStorage } from "multer";
+import { extname } from "path";
 
 @Controller()
 export class PatientsController {
@@ -43,6 +49,16 @@ export class PatientsController {
         );
     }
 
+    @Post("toggle-patient-appointment-meet/:appointmentID")
+    @Roles(UserRole.Doctor, UserRole.Admin)
+    async togglePatientAppointmentMeet(
+        @Param("appointmentID", ParseIntPipe) appointmentID: number,
+    ) {
+        return await this.patientsService.togglePatientAppointmentMeet(
+            appointmentID,
+        );
+    }
+
     @Get("patient-all-diagnostic")
     @Roles(UserRole.Patient)
     async getAllPatientDiagnostic(@Req() request: AuthenticatedRequest) {
@@ -51,13 +67,33 @@ export class PatientsController {
 
     @Post("create-diagnostic")
     @Roles(UserRole.Doctor)
+    @UseInterceptors(
+        FileInterceptor("file", {
+            storage: diskStorage({
+                destination: "./uploads",
+                filename: (req, file, cb) => {
+                    const randomName = Array(32)
+                        .fill(null)
+                        .map(() => Math.round(Math.random() * 16).toString(16))
+                        .join("");
+                    cb(null, `${randomName}${extname(file.originalname)}`);
+                },
+            }),
+        }),
+    )
     async createPatientDiagnostic(
         @Req() request: AuthenticatedRequest,
         @Body() dto: CreatePatientDiagnosticDto,
+        @UploadedFile() file: Express.Multer.File,
     ) {
+        if (!file) {
+            throw new BadRequestException("Файл не найден");
+        }
+
         return await this.patientsService.createPatientDiagnostic(
             request.user,
             dto,
+            file,
         );
     }
 

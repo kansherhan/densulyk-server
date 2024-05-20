@@ -12,7 +12,7 @@ export const settingsSlice = createSlice({
       state.headersBackPage.push(action.payload);
     },
     backPage: (state) => {
-      return state.headersBackPage.pop();
+      state.headersBackPage.pop();
     },
     clearBackPage: (state) => {
       state.headersBackPage = [];

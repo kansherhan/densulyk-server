@@ -1,7 +1,7 @@
-import { IsInt, IsString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
 export class CreatePatientDiagnosticDto {
-    @IsInt()
+    @IsNumberString()
     userID: number;
 
     @IsString()

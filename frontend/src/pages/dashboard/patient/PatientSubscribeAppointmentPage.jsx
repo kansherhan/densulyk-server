@@ -6,13 +6,9 @@ import { TextInput } from "../../../components/TextInput.jsx";
 import { Button } from "../../../components/Button.jsx";
 import PatientService from "../../../services/patient.service.js";
 import { DoctorListSelect } from "../../../components/DoctorListSelect.jsx";
-import { useNavigate } from "react-router-dom";
-import { DASHBOARD_PATIENT_APPOINTMENT } from "../../../constants/pages.js";
 import * as Yup from "yup";
 
-export function PatientSubscribeAppointment() {
-  const navigate = useNavigate();
-
+export function PatientSubscribeAppointmentPage() {
   const formik = useFormik({
     initialValues: {
       doctorID: null,
@@ -29,8 +25,6 @@ export function PatientSubscribeAppointment() {
 
       if (!isError) {
         alert("Вы записались к врачу");
-
-        navigate(DASHBOARD_PATIENT_APPOINTMENT);
       }
     },
   });

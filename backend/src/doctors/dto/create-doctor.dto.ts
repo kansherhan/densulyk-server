@@ -1,8 +1,9 @@
-import { IsInt, IsString, Length } from "class-validator";
+import { IsEmail, IsString, Length } from "class-validator";
 
 export class CreateDoctorDto {
-    @IsInt()
-    userID: number;
+    @IsString()
+    @IsEmail()
+    email: string;
 
     @IsString()
     @Length(1, 255)

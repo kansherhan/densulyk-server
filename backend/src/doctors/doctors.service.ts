@@ -40,7 +40,7 @@ export class DoctorsService {
     async createDoctor(dto: CreateDoctorDto) {
         const user = await this.userModel.findOne({
             where: {
-                id: dto.userID,
+                email: dto.email,
             },
         });
 
@@ -55,7 +55,10 @@ export class DoctorsService {
         user.roleID = UserRole.Doctor;
         await user.save();
 
-        return await this.doctorModel.create(dto);
+        return await this.doctorModel.create({
+            userID: user.id,
+            speciality: dto.speciality,
+        });
     }
 
     async getDoctorPatientAppointments(user: User) {

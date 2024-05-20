@@ -99,14 +99,17 @@ export function Header() {
         <div className="container">
           <div className="inner">
             {headersBackPage.length ? (
-              <Link
-                to={getLastBackPageItem().url}
+              <a
                 className="link-text display:flex align-items:center"
-                onClick={() => dispatch(backPage())}
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(backPage());
+                  navigate(getLastBackPageItem().url);
+                }}
               >
                 <IoIosArrowBack size={21} className="margin-right:15" />
                 <span>{getLastBackPageItem().title}</span>
-              </Link>
+              </a>
             ) : (
               <>
                 <nav className="navigations">

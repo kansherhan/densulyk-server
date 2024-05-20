@@ -15,6 +15,14 @@ class PatientService {
   async getAllAppointments() {
     return getResponseData(await http.get("/patients/patient-all-appointment"));
   }
+
+  async togglePatientAppointmentMeet(appointmentID) {
+    return getResponseData(
+      await http.post(
+        `/patients/toggle-patient-appointment-meet/${appointmentID}`
+      )
+    );
+  }
 }
 
 export default new PatientService();

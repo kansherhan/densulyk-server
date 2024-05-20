@@ -16,6 +16,9 @@ import {
   AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_LOGIN_PAGE,
   AUTH_REGISTRATION_PAGE,
+  DASHBOARD_ADMIN_CREATE_NEW_DOCTOR,
+  DASHBOARD_ADMIN_STATISTIC_2FA,
+  DASHBOARD_DOCTOR_ALL_APPOINTMENT,
   DASHBOARD_PAGE,
   DASHBOARD_PATIENT_APPOINTMENT,
   DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
@@ -36,8 +39,11 @@ import { RegistrationPage } from "./pages/auth/RegistrationPage.jsx";
 import { EmailVerificationPage } from "./pages/auth/EmailVerificationPage.jsx";
 import { DashboardLayout } from "./layouts/DashboardLayout.jsx";
 import { UserInfo } from "./pages/dashboard/UserInfo.jsx";
-import { PatientSubscribeAppointment } from "./pages/dashboard/patient/PatientSubscribeAppointment.jsx";
-import { PatientAppointments } from "./pages/dashboard/patient/PatientAppointments.jsx";
+import { PatientSubscribeAppointmentPage } from "./pages/dashboard/patient/PatientSubscribeAppointmentPage.jsx";
+import { PatientAppointmentsPage } from "./pages/dashboard/patient/PatientAppointmentsPage.jsx";
+import { Statistic2FAPage } from "./pages/dashboard/admin/Statistic2FAPage.jsx";
+import { DoctorAllPatientAppointmentsPage } from "./pages/dashboard/doctor/DoctorAllPatientAppointmentsPage.jsx";
+import { AdminCreateNewDoctorPage } from "./pages/dashboard/admin/AdminCreateNewDoctorPage.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,17 +63,36 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
             <Route element={<DashboardLayout />}>
               <Route path={DASHBOARD_PAGE} element={<DashboardPage />} />
-
               <Route path={DASHBOARD_USER_INFO_PAGE} element={<UserInfo />} />
+
+              {/*patient pages*/}
 
               <Route
                 path={DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT}
-                element={<PatientSubscribeAppointment />}
+                element={<PatientSubscribeAppointmentPage />}
+              />
+              <Route
+                path={DASHBOARD_PATIENT_APPOINTMENT}
+                element={<PatientAppointmentsPage />}
+              />
+
+              {/*doctor pages*/}
+
+              <Route
+                path={DASHBOARD_DOCTOR_ALL_APPOINTMENT}
+                element={<DoctorAllPatientAppointmentsPage />}
+              />
+
+              {/*admin pages*/}
+
+              <Route
+                path={DASHBOARD_ADMIN_CREATE_NEW_DOCTOR}
+                element={<AdminCreateNewDoctorPage />}
               />
 
               <Route
-                path={DASHBOARD_PATIENT_APPOINTMENT}
-                element={<PatientAppointments />}
+                path={DASHBOARD_ADMIN_STATISTIC_2FA}
+                element={<Statistic2FAPage />}
               />
             </Route>
 

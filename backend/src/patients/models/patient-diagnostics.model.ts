@@ -14,6 +14,8 @@ export interface PatientDiagnosticCreationAttributes {
     doctorID: number;
     diagnosisName: string;
     recommendation: string;
+    completed: boolean;
+    documentUrl: string;
 }
 
 @Table({

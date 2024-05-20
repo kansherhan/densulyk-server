@@ -6,7 +6,7 @@ import { LoadingPanel } from "../../../components/LoadingPanel.jsx";
 import { AppointmentCard } from "../../../components/AppointmentCard.jsx";
 import { SpacePanel } from "../../../components/SpacePanel.jsx";
 
-export function PatientAppointments() {
+export function PatientAppointmentsPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["patient-appointments"],
     queryFn: () => PatientService.getAllAppointments(),
