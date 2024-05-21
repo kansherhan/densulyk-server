@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 
-import { InfoPanel } from "../../components/InfoPanel.jsx";
+import { InfoPanel } from "../../components/panels/InfoPanel.jsx";
 import UserService from "../../services/user.service.js";
 import { genderText } from "../../helper.js";
 import { ROLES } from "../../constants/roles.js";

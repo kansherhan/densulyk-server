@@ -2,9 +2,9 @@ import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 
 import PatientService from "../../../services/patient.service.js";
-import { LoadingPanel } from "../../../components/LoadingPanel.jsx";
+import { LoadingPanel } from "../../../components/panels/LoadingPanel.jsx";
 import { AppointmentCard } from "../../../components/AppointmentCard.jsx";
-import { SpacePanel } from "../../../components/SpacePanel.jsx";
+import { SpacePanel } from "../../../components/panels/SpacePanel.jsx";
 
 export function PatientAppointmentsPage() {
   const { data, isLoading } = useQuery({

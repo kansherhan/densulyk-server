@@ -1,5 +1,5 @@
-import { TextInput } from "../../components/TextInput.jsx";
-import { Button } from "../../components/Button.jsx";
+import { TextInput } from "../../components/ui/TextInput.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery } from "@tanstack/react-query";

@@ -1,11 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import DoctorService from "../../../services/doctor.service.js";
-import { LoadingPanel } from "../../../components/LoadingPanel.jsx";
-import DataTable from "react-data-table-component";
-import { TextInput } from "../../../components/TextInput.jsx";
-import { genderText, meetedText } from "../../../helper.js";
 import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+import DataTable from "react-data-table-component";
+
+import DoctorService from "../../../services/doctor.service.js";
 import PatientService from "../../../services/patient.service.js";
+import { LoadingPanel } from "../../../components/panels/LoadingPanel.jsx";
+import { TextInput } from "../../../components/ui/TextInput.jsx";
+import { genderText, meetedText } from "../../../helper.js";
 
 export function DoctorAllPatientAppointmentsPage() {
   const { data, isLoading, refetch } = useQuery({
@@ -61,7 +62,7 @@ export function DoctorAllPatientAppointmentsPage() {
             await refetch();
           }}
         >
-          Изменить статус
+          Выполнен
         </span>
       ),
     },

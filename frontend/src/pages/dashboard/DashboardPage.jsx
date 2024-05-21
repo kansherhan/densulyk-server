@@ -10,7 +10,7 @@ import {
   clearBackPage,
 } from "../../store/slices/settings.slice.js";
 import { NAVIGATIONS } from "../../constants/dashboard.js";
-import { LoadingPanel } from "../../components/LoadingPanel.jsx";
+import { LoadingPanel } from "../../components/panels/LoadingPanel.jsx";
 import { createDashboardHeaderBackPage } from "../../helper.js";
 
 export function DashboardPage() {

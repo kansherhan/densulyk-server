@@ -12,6 +12,8 @@ services:
     build: ./backend
     restart: always
     env_file: .env
+    volumes:
+      - upload_files:/backend/uploads
     depends_on:
       - postgres
 

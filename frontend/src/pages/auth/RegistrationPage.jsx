@@ -14,8 +14,8 @@ import {
 } from "../../constants/pages.js";
 import AuthService from "../../services/auth.service.js";
 import { register } from "../../store/slices/auth.slice.js";
-import { TextInput } from "../../components/TextInput.jsx";
-import { Button } from "../../components/Button.jsx";
+import { TextInput } from "../../components/ui/TextInput.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 import { genderText } from "../../helper.js";
 
 export function RegistrationPage() {

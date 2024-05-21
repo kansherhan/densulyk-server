@@ -2,8 +2,8 @@ import DatePicker from "react-date-picker";
 import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 
-import { TextInput } from "../../../components/TextInput.jsx";
-import { Button } from "../../../components/Button.jsx";
+import { TextInput } from "../../../components/ui/TextInput.jsx";
+import { Button } from "../../../components/ui/Button.jsx";
 import PatientService from "../../../services/patient.service.js";
 import { DoctorListSelect } from "../../../components/DoctorListSelect.jsx";
 import * as Yup from "yup";

@@ -1,5 +1,5 @@
 import http from "../http.js";
-import { getResponseData } from "../helper.js";
+import { createFormDataFromObject, getResponseData } from "../helper.js";
 
 class DoctorService {
   async getAllDoctorList() {
@@ -9,6 +9,19 @@ class DoctorService {
   async getAllDoctorAppointments() {
     return getResponseData(
       await http.get("/doctors/get-doctor-patient-appointments")
+    );
+  }
+
+  async createPatientDiagnostic(data) {
+    console.log(data);
+    const formData = createFormDataFromObject(data);
+
+    return getResponseData(
+      await http.post("/patients/create-diagnostic", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
     );
   }
 }

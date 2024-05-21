@@ -65,6 +65,7 @@ export class DoctorsService {
         return await this.patientAppointmentModel.findAll({
             where: {
                 doctorID: user.id,
+                isMeeted: false,
             },
             include: { all: true },
         });

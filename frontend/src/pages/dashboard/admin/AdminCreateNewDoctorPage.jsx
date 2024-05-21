@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { TextInput } from "../../../components/TextInput.jsx";
+import { TextInput } from "../../../components/ui/TextInput.jsx";
 import { useQuery } from "@tanstack/react-query";
-import AdminService from "../../../services/AdminService.js";
-import { Button } from "../../../components/Button.jsx";
+import AdminService from "../../../services/admin.service.js";
+import { Button } from "../../../components/ui/Button.jsx";
 
 export function AdminCreateNewDoctorPage() {
   const formik = useFormik({

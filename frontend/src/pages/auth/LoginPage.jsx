@@ -9,8 +9,8 @@ import {
   AUTH_REGISTRATION_PAGE,
   DASHBOARD_PAGE,
 } from "../../constants/pages.js";
-import { TextInput } from "../../components/TextInput.jsx";
-import { Button } from "../../components/Button.jsx";
+import { TextInput } from "../../components/ui/TextInput.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 import AuthService from "../../services/auth.service.js";
 import { login } from "../../store/slices/auth.slice.js";
 import { AxiosError } from "axios";

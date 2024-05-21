@@ -19,6 +19,7 @@ import {
   DASHBOARD_ADMIN_CREATE_NEW_DOCTOR,
   DASHBOARD_ADMIN_STATISTIC_2FA,
   DASHBOARD_DOCTOR_ALL_APPOINTMENT,
+  DASHBOARD_DOCTOR_CREATE_PATIENT_DIAGNOSTIC,
   DASHBOARD_PAGE,
   DASHBOARD_PATIENT_APPOINTMENT,
   DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
@@ -44,6 +45,7 @@ import { PatientAppointmentsPage } from "./pages/dashboard/patient/PatientAppoin
 import { Statistic2FAPage } from "./pages/dashboard/admin/Statistic2FAPage.jsx";
 import { DoctorAllPatientAppointmentsPage } from "./pages/dashboard/doctor/DoctorAllPatientAppointmentsPage.jsx";
 import { AdminCreateNewDoctorPage } from "./pages/dashboard/admin/AdminCreateNewDoctorPage.jsx";
+import { DoctorCreatePatientDiagnosticPage } from "./pages/dashboard/doctor/DoctorCreatePatientDiagnosticPage.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,6 +79,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               />
 
               {/*doctor pages*/}
+
+              <Route
+                path={DASHBOARD_DOCTOR_CREATE_PATIENT_DIAGNOSTIC}
+                element={<DoctorCreatePatientDiagnosticPage />}
+              />
 
               <Route
                 path={DASHBOARD_DOCTOR_ALL_APPOINTMENT}

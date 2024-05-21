@@ -12,6 +12,14 @@ export function meetedText(meeted) {
   return !meeted ? "не выполнен" : "выполнен";
 }
 
+export function createFormDataFromObject(data) {
+  const formData = new FormData();
+
+  Object.keys(data).forEach((key) => formData.append(key, data[key]));
+
+  return formData;
+}
+
 export function createHeaderBackPage(title, url) {
   return { title, url };
 }
