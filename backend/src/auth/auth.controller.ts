@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req } from "@nestjs/common";
 
 import { AuthService } from "./auth.service";
 
@@ -9,6 +9,7 @@ import { AllowUnauthorizedRequest } from "@/auth/decorators/allow-unauthorized-r
 
 import { UserToken } from "@/users/models/user-tokens.model";
 import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
+import { AuthenticatedRequest } from "@/types/requests";
 
 @Controller()
 export class AuthController {
@@ -16,8 +17,11 @@ export class AuthController {
 
     @Post("login")
     @AllowUnauthorizedRequest()
-    async login(@Body() dto: AuthLoginDto): Promise<UserToken> {
-        return await this.authService.login(dto);
+    async login(
+        @Req() request: AuthenticatedRequest,
+        @Body() dto: AuthLoginDto,
+    ): Promise<UserToken> {
+        return await this.authService.login(request, dto);
     }
 
     @Post("registration")

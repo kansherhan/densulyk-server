@@ -12,6 +12,10 @@ export function meetedText(meeted) {
   return !meeted ? "не выполнен" : "выполнен";
 }
 
+export function isSuccessText(success) {
+  return success ? "вход" : "попытка";
+}
+
 export function createFormDataFromObject(data) {
   const formData = new FormData();
 

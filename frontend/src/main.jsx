@@ -13,6 +13,7 @@ import "react-toggle/style.css";
 import "./assets/scss/index.scss";
 
 import {
+  AUTH_EMAIL_2FA_VERIFY_PAGE,
   AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_LOGIN_PAGE,
   AUTH_REGISTRATION_PAGE,
@@ -46,6 +47,7 @@ import { Statistic2FAPage } from "./pages/dashboard/admin/Statistic2FAPage.jsx";
 import { DoctorAllPatientAppointmentsPage } from "./pages/dashboard/doctor/DoctorAllPatientAppointmentsPage.jsx";
 import { AdminCreateNewDoctorPage } from "./pages/dashboard/admin/AdminCreateNewDoctorPage.jsx";
 import { DoctorCreatePatientDiagnosticPage } from "./pages/dashboard/doctor/DoctorCreatePatientDiagnosticPage.jsx";
+import { Account2FAVerifyPage } from "./pages/auth/Account2FAVerifyPage.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -112,6 +114,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route
                 path={AUTH_EMAIL_VERIFICATION_PAGE}
                 element={<EmailVerificationPage />}
+              />
+              <Route
+                path={AUTH_EMAIL_2FA_VERIFY_PAGE}
+                element={<Account2FAVerifyPage />}
               />
             </Route>
           </Route>

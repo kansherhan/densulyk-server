@@ -9,6 +9,8 @@ import { PatientDiagnostic } from "@/patients/models/patient-diagnostics.model";
 import { PatientAppointment } from "@/patients/models/patient-appointments.model";
 
 import { Doctor } from "@/doctors/models/doctors.model";
+import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
+import { UserAuthReport } from "@/tasks/models/user-auth-report.model";
 
 export const CreateDatabaseModule = (): DynamicModule => {
     return SequelizeModule.forRoot({
@@ -31,6 +33,9 @@ export const CreateDatabaseModule = (): DynamicModule => {
             PatientAppointment,
 
             Doctor,
+
+            UserAuthHistory,
+            UserAuthReport,
         ],
     });
 };

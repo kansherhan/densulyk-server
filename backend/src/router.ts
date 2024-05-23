@@ -5,6 +5,7 @@ import { UsersModule } from "@/users/users.module";
 import { AuthModule } from "@/auth/auth.module";
 import { PatientsModule } from "@/patients/patients.module";
 import { DoctorsModule } from "@/doctors/doctors.module";
+import { TasksModule } from "@/tasks/tasks.module";
 
 export const CreateRouterModule = (): DynamicModule => {
     return RouterModule.register([
@@ -26,6 +27,10 @@ export const CreateRouterModule = (): DynamicModule => {
                 {
                     path: "doctors",
                     module: DoctorsModule,
+                },
+                {
+                    path: "tasks",
+                    module: TasksModule,
                 },
             ],
         },

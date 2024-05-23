@@ -17,6 +17,8 @@ import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
 import { EmailVerificationErrorException } from "@/auth/exceptions/email-verification-error.exception";
 import { Random } from "@/utilities/random";
 import { EmailNotVerifyException } from "@/users/exceptions/email-not-verify.exception";
+import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
+import { AuthenticatedRequest } from "@/types/requests";
 
 @Injectable()
 export class AuthService {
@@ -26,10 +28,16 @@ export class AuthService {
 
         @InjectModel(UserToken)
         private readonly userTokenModel: typeof UserToken,
+
+        @InjectModel(UserAuthHistory)
+        private readonly userAuthHistoryModel: typeof UserAuthHistory,
     ) {}
 
-    public async login(authLoginDto: AuthLoginDto): Promise<UserToken> {
-        const user: User = await this.validateUser(authLoginDto);
+    public async login(
+        request: AuthenticatedRequest,
+        authLoginDto: AuthLoginDto,
+    ): Promise<UserToken> {
+        const user: User = await this.validateUser(authLoginDto, request);
 
         const token = await this.userTokenModel.create({
             userID: user.id,
@@ -98,7 +106,10 @@ export class AuthService {
         });
     }
 
-    private async validateUser(dto: AuthLoginDto): Promise<User> {
+    private async validateUser(
+        dto: AuthLoginDto,
+        request: AuthenticatedRequest,
+    ): Promise<User> {
         const user = await this.usersService.getUserByEmail(dto.email);
 
         if (user) {
@@ -107,11 +118,25 @@ export class AuthService {
                 user.password,
             );
 
+            await this.createAuthHistory(request.ip, user.id, passwordEquals);
+
             if (passwordEquals) {
                 return user;
             }
         }
 
         throw new AuthorizationException();
+    }
+
+    private async createAuthHistory(
+        ip: string,
+        userID: number,
+        success: boolean,
+    ): Promise<UserAuthHistory> {
+        return await this.userAuthHistoryModel.create({
+            ip,
+            userID,
+            isSuccess: success,
+        });
     }
 }

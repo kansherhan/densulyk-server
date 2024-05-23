@@ -5,7 +5,7 @@ services:
     image: postgres:15-alpine
     restart: always
     volumes:
-      - densulyk_postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     env_file: .env
 
   backend:
@@ -38,4 +38,5 @@ services:
 
 
 volumes:
-  densulyk_postgres_data:
+  postgres_data:
+  upload_files:
