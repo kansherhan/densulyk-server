@@ -11,17 +11,20 @@ import {
 import { writeFile, utils } from "xlsx";
 import { Line } from "react-chartjs-2";
 import DataTable from "react-data-table-component";
-import { faker } from "@faker-js/faker";
 import moment from "moment";
 import { RiFileExcel2Line } from "react-icons/ri";
-import { isSuccessText } from "../../../helper.js";
-import { InfoCard } from "../../../components/InfoCard.jsx";
 import {
   FaExclamationCircle,
   FaUserAlt,
   FaUserCheck,
   FaUserTimes,
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+
+import { isSuccessText } from "../../../helper.js";
+import { InfoCard } from "../../../components/InfoCard.jsx";
+import { LoadingPanel } from "../../../components/panels/LoadingPanel.jsx";
+import TasksService from "../../../services/tasks.service.js";
 
 ChartJS.register(
   CategoryScale,
@@ -33,130 +36,135 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  aspectRatio: 0.6,
-  pointRadius: 6,
-  pointHoverRadius: 8,
-  interaction: {
-    intersect: false,
-    mode: "index",
-  },
-  scales: {
-    x: {
-      ticks: {
-        font: {
-          size: 14,
-        },
-      },
-      title: {
-        font: {
-          size: 14,
-        },
-      },
-    },
-    y: {
-      suggestedMax: 50,
-      suggestedMin: 0,
-      ticks: {
-        font: {
-          size: 14,
-        },
-      },
-      title: {
-        font: {
-          size: 14,
-        },
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      position: "top",
-      labels: {
-        font: {
-          size: 15,
-        },
-      },
-    },
-  },
-};
-
-const labels = ["19 май", "20 май", "21 май", "22 май"];
-
-const columnsTable = [
-  {
-    name: "#",
-    selector: (row) => row.id,
-    width: "100px",
-  },
-  {
-    name: "IP",
-    selector: (row) => row.ip,
-  },
-  {
-    name: "Вход выполнен",
-    selector: (row) => (
-      <span className={row.isSuccess ? "f:#005963" : "f:#ed5050"}>
-        {isSuccessText(row.isSuccess)}
-      </span>
-    ),
-  },
-  {
-    name: "Количество",
-    selector: (row) => row.count,
-  },
-  {
-    name: "Время",
-    selector: (row) => row.date,
-    sortable: true,
-  },
-];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "Неудачные",
-      data: [4, 2, 0, 7],
-      fill: true,
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      tension: 0.2,
-    },
-    {
-      label: "Успешно",
-      data: [15, 7, 13, 23],
-      fill: true,
-      borderColor: "#0f9379",
-      backgroundColor: "#0f93792e",
-      tension: 0.2,
-    },
-  ],
-};
-
-const dataTable = Array.from({ length: 15 }, (v, k) => ({
-  id: k + 1,
-  ip: "192.168.1.122",
-  count: faker.number.int({ min: 1, max: 2 }),
-  isSuccess: Math.random() > 0.5,
-  date: moment(
-    faker.date.between({
-      from: "2024-05-21T10:00:00.000Z",
-      to: "2024-05-21T23:00:00.000Z",
-    })
-  ).format("YYYY-MM-DD HH:mm:ss"),
-}));
-
-const handleExport = () => {
-  const ws = utils.json_to_sheet(dataTable);
-  const wb = utils.book_new();
-  utils.book_append_sheet(wb, ws, "Sheet1");
-  writeFile(wb, `test.xlsx`);
-};
-
 export function Statistic2FAPage() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["statistic-2fa"],
+    queryFn: async () => {
+      const reports = await TasksService.getAllAuthReports();
+      const history = await TasksService.getAllUserAuthHistory();
+
+      console.log(reports, history);
+
+      return { reports, history };
+    },
+    staleTime: Infinity,
+  });
+
+  if (isLoading) {
+    return <LoadingPanel />;
+  }
+
+  const lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    aspectRatio: 0.6,
+    pointRadius: 6,
+    pointHoverRadius: 8,
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 14,
+          },
+        },
+        title: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        suggestedMin: 0,
+        ticks: {
+          font: {
+            size: 14,
+          },
+        },
+        title: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          font: {
+            size: 15,
+          },
+        },
+      },
+    },
+  };
+
+  const labels = data.reports.map((report) =>
+    moment(report.createdAt).format("DD MMM")
+  );
+
+  const columnsTable = [
+    {
+      name: "#",
+      selector: (row) => row.id,
+      width: "100px",
+    },
+    {
+      name: "IP",
+      selector: (row) => row.ip,
+    },
+    {
+      name: "Вход выполнен",
+      selector: (row) => (
+        <span className={row.isSuccess ? "f:#005963" : "f:#ed5050"}>
+          {isSuccessText(row.isSuccess)}
+        </span>
+      ),
+    },
+    {
+      name: "ID пользователя",
+      selector: (row) => row.userID,
+    },
+    {
+      name: "Время",
+      selector: (row) => moment(row.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+      sortable: true,
+    },
+  ];
+
+  const lineChartData = {
+    labels,
+    datasets: [
+      {
+        label: "Неудачные",
+        data: data.reports.map((report) => report.successCount),
+        fill: true,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        tension: 0.2,
+      },
+      {
+        label: "Успешно",
+        data: data.reports.map((report) => report.errorCount),
+        fill: true,
+        borderColor: "#0f9379",
+        backgroundColor: "#0f93792e",
+        tension: 0.2,
+      },
+    ],
+  };
+
+  const handleExport = () => {
+    const ws = utils.json_to_sheet(data.history);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, "Sheet1");
+    writeFile(wb, `week_statistic.xlsx`);
+  };
+
   return (
     <div className="statistic-2fa-page">
       <div className="container">
@@ -197,7 +205,11 @@ export function Statistic2FAPage() {
             Список последный входов в систему
           </h3>
 
-          <Line className="display:block" options={options} data={data} />
+          <Line
+            className="display:block"
+            options={lineChartOptions}
+            data={lineChartData}
+          />
         </div>
 
         <div className="signin-statistic-table">
@@ -219,7 +231,7 @@ export function Statistic2FAPage() {
           paginationPerPage={10}
           className="datatable-fix"
           columns={columnsTable}
-          data={dataTable}
+          data={data.history}
         />
       </div>
     </div>

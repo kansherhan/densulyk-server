@@ -19,11 +19,13 @@ import { Random } from "@/utilities/random";
 import { EmailNotVerifyException } from "@/users/exceptions/email-not-verify.exception";
 import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
 import { AuthenticatedRequest } from "@/types/requests";
+import { ContractsService } from "@/contracts/contracts.service";
 
 @Injectable()
 export class AuthService {
     public constructor(
         private readonly usersService: UsersService,
+        private readonly contractsService: ContractsService,
         private readonly mailerService: MailerService,
 
         @InjectModel(UserToken)
@@ -76,6 +78,8 @@ export class AuthService {
             newUser.email,
             userEmailVerificationCode,
         );
+
+        await this.contractsService.addUser(newUser.email, "1111");
 
         return await this.userTokenModel.create({
             userID: newUser.id,

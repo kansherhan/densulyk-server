@@ -2,6 +2,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
+import moment from "moment";
+import "moment/dist/locale/ru";
 
 import "@master/css";
 
@@ -48,6 +50,8 @@ import { DoctorAllPatientAppointmentsPage } from "./pages/dashboard/doctor/Docto
 import { AdminCreateNewDoctorPage } from "./pages/dashboard/admin/AdminCreateNewDoctorPage.jsx";
 import { DoctorCreatePatientDiagnosticPage } from "./pages/dashboard/doctor/DoctorCreatePatientDiagnosticPage.jsx";
 import { Account2FAVerifyPage } from "./pages/auth/Account2FAVerifyPage.jsx";
+
+moment.locale("ru");
 
 const queryClient = new QueryClient({
   defaultOptions: {

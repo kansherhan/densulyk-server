@@ -5,7 +5,9 @@ export const InfoCard = ({ icon, title, value }) => {
         {icon}
       </div>
       <div className="flex flex:col">
-        <div className="font:medium margin-bottom:5">{title}</div>
+        <div className="font:medium text-align:end margin-bottom:5">
+          {title}
+        </div>
         <div className="font:bold text-align:end f:27">{value}</div>
       </div>
     </div>

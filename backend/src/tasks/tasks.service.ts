@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { InjectModel } from "@nestjs/sequelize";
+import { Op } from "sequelize";
 
 import { UserAuthReport } from "@/tasks/models/user-auth-report.model";
 import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
@@ -26,7 +27,7 @@ export class TasksService {
             where: {
                 isSuccess: true,
                 createdAt: {
-                    $gt: date,
+                    [Op.gt]: date,
                 },
             },
         });
@@ -35,7 +36,7 @@ export class TasksService {
             where: {
                 isSuccess: false,
                 createdAt: {
-                    $gt: date,
+                    [Op.gt]: date,
                 },
             },
         });
@@ -55,7 +56,7 @@ export class TasksService {
         return await this.userAuthHistoryModel.findAll({
             where: {
                 createdAt: {
-                    $gt: date,
+                    [Op.gt]: date,
                 },
             },
         });
@@ -68,7 +69,7 @@ export class TasksService {
         return await this.userAuthReportModel.findAll({
             where: {
                 createdAt: {
-                    $gt: date,
+                    [Op.gt]: date,
                 },
             },
         });
