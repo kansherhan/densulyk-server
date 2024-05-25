@@ -20,6 +20,7 @@ import { EmailNotVerifyException } from "@/users/exceptions/email-not-verify.exc
 import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
 import { AuthenticatedRequest } from "@/types/requests";
 import { ContractsService } from "@/contracts/contracts.service";
+import { IAuth2FAResponse } from "@/auth/responses/Auth2FA.response";
 
 @Injectable()
 export class AuthService {
@@ -79,15 +80,13 @@ export class AuthService {
             userEmailVerificationCode,
         );
 
-        await this.contractsService.addUser(newUser.email, "1111");
-
         return await this.userTokenModel.create({
             userID: newUser.id,
             token: BearerToken.generate(),
         });
     }
 
-    async emailVerify(dto: AuthEmailVerifyDto) {
+    async emailVerify(dto: AuthEmailVerifyDto): Promise<IAuth2FAResponse> {
         const emailVerification =
             await this.usersService.getLastUserEmailVerification(dto.userID);
 
@@ -99,6 +98,12 @@ export class AuthService {
 
         user.emailVerified = true;
         await user.save();
+
+        const code2FA = Random.getRandomString(6);
+
+        await this.contractsService.addUser(user.email, code2FA);
+
+        return { code2FA };
     }
 
     private async sendEmailVerification(email: string, code: number) {

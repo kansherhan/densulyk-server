@@ -10,6 +10,7 @@ import { AllowUnauthorizedRequest } from "@/auth/decorators/allow-unauthorized-r
 import { UserToken } from "@/users/models/user-tokens.model";
 import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
 import { AuthenticatedRequest } from "@/types/requests";
+import { IAuth2FAResponse } from "@/auth/responses/Auth2FA.response";
 
 @Controller()
 export class AuthController {
@@ -32,7 +33,9 @@ export class AuthController {
 
     @Post("email-verify")
     @AllowUnauthorizedRequest()
-    async emailVerify(@Body() dto: AuthEmailVerifyDto): Promise<void> {
+    async emailVerify(
+        @Body() dto: AuthEmailVerifyDto,
+    ): Promise<IAuth2FAResponse> {
         return await this.authService.emailVerify(dto);
     }
 }
