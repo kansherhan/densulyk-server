@@ -37,7 +37,7 @@ export function AdminCreateNewDoctorPage() {
       <div className="container">
         <form className="form" onSubmit={formik.handleSubmit}>
           <h1 className="title margin-bottom:45">
-            Назначит нового врача в мед.центр
+            Назначить нового врача в мед.центр
           </h1>
 
           <TextInput

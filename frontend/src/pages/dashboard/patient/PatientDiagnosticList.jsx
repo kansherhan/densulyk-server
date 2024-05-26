@@ -33,7 +33,7 @@ export function PatientDiagnosticList() {
     },
     {
       name: "Статус",
-      selector: (row) => (!row.completed ? "получен" : "не получен"),
+      selector: (row) => (row.completed ? "получен" : "не получен"),
       sortable: true,
     },
     {
