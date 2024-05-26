@@ -3,7 +3,7 @@ import AxiosInstance, { AxiosError } from "axios";
 import { USER_TOKEN_LOCALSTORAGE_KEY } from "./constants/app.js";
 
 const http = AxiosInstance.create({
-  baseURL: "http://localhost/api/",
+  baseURL: "http://92.53.99.180/api/",
 });
 
 http.interceptors.request.use(
