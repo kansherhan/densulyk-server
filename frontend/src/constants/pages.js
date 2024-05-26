@@ -6,6 +6,8 @@ export const DASHBOARD_PATIENT_APPOINTMENT = "/dashboard/patient/appointment";
 export const DASHBOARD_PATIENT_DIAGNOSTICS = "/dashboard/patient/diagnostics";
 export const DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT =
   "/dashboard/patient/subscribe-appointment";
+export const DASHBOARD_PATIENT_DIAGNOSTIC_PAGE =
+  "/dashboard/patient/diagnostics/:diagnosticID";
 
 export const DASHBOARD_DOCTOR_CREATE_PATIENT_DIAGNOSTIC =
   "/dashboard/doctor/create-patient-diagnostic";

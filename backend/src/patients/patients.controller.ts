@@ -11,6 +11,8 @@ import {
     UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 
 import { AuthenticatedRequest } from "@/types/requests";
 
@@ -22,12 +24,15 @@ import { PatientsService } from "@/patients/patients.service";
 import { CreatePatientAppointmentDto } from "@/patients/dto/create-patient-appointment.dto";
 import { CreatePatientDiagnosticDto } from "@/patients/dto/create-patient-diagnostic.dto";
 import { UpdatePatientDiagnosticDto } from "@/patients/dto/update-patient-diagnostic.dto";
-import { diskStorage } from "multer";
-import { extname } from "path";
 
 @Controller()
 export class PatientsController {
     constructor(private readonly patientsService: PatientsService) {}
+
+    @Get("diagnostics/:id")
+    async getDiagnosticByID(@Param("id", ParseIntPipe) diagnosticID: number) {
+        return await this.patientsService.getDiagnosticByID(diagnosticID);
+    }
 
     @Get("patient-all-appointment")
     @Roles(UserRole.Patient)
@@ -63,6 +68,20 @@ export class PatientsController {
     @Roles(UserRole.Patient)
     async getAllPatientDiagnostic(@Req() request: AuthenticatedRequest) {
         return await this.patientsService.getAllPatientDiagnostic(request.user);
+    }
+
+    @Get("get-admin-patient-all-diagnostic")
+    @Roles(UserRole.Admin)
+    async getAdminAllPatientDiagnostic() {
+        return await this.patientsService.getAdminAllPatientDiagnostic();
+    }
+
+    @Get("get-doctor-patient-all-diagnostic")
+    @Roles(UserRole.Doctor)
+    async getDoctorAllPatientDiagnostic(@Req() request: AuthenticatedRequest) {
+        return await this.patientsService.getDoctorAllPatientDiagnostic(
+            request.user,
+        );
     }
 
     @Post("create-diagnostic")

@@ -120,4 +120,45 @@ export class PatientsService {
         appointment.isMeeted = !appointment.isMeeted;
         await appointment.save();
     }
+
+    async getDiagnosticByID(diagnosticID: number) {
+        return await this.patientDiagnosticModel.findOne({
+            where: {
+                id: diagnosticID,
+            },
+            include: [
+                {
+                    model: User,
+                    as: "doctor",
+                    include: [
+                        {
+                            model: Doctor,
+                            attributes: ["speciality"],
+                        },
+                    ],
+                    attributes: ["id", "firstName", "lastName"],
+                },
+                {
+                    model: User,
+                    as: "user",
+                    attributes: ["id", "firstName", "lastName"],
+                },
+            ],
+        });
+    }
+
+    async getAdminAllPatientDiagnostic() {
+        return await this.patientDiagnosticModel.findAll({
+            include: { all: true },
+        });
+    }
+
+    async getDoctorAllPatientDiagnostic(doctor: User) {
+        return await this.patientDiagnosticModel.findAll({
+            where: {
+                doctorID: doctor.id,
+            },
+            include: { all: true },
+        });
+    }
 }

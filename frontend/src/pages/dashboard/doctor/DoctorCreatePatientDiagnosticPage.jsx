@@ -37,14 +37,12 @@ export function DoctorCreatePatientDiagnosticPage() {
       DoctorService.createPatientDiagnostic({
         userID: formik.values.userID.value,
         recommendation: formik.values.recommendation,
-        diagnosisName: formik.values.recommendation,
+        diagnosisName: formik.values.diagnosisName,
         file: formik.values.file,
       }),
     enabled: false,
     retry: false,
   });
-
-  console.log(formik.errors);
 
   return (
     <div className="doctor-create-patient-diagnostic-page">

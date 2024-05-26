@@ -45,11 +45,13 @@ export function RegistrationPage() {
       address: Yup.string().required(),
     }),
     onSubmit: async () => {
-      const { data } = await refetch();
+      const { data, isError } = await refetch();
 
-      dispatch(register(data));
+      if (!isError) {
+        dispatch(register(data));
 
-      navigate(AUTH_EMAIL_VERIFICATION_PAGE);
+        navigate(AUTH_EMAIL_VERIFICATION_PAGE);
+      }
     },
   });
 
@@ -58,6 +60,7 @@ export function RegistrationPage() {
     queryFn: () => AuthService.registration(formik.values),
     enabled: false,
     retry: false,
+    staleTime: Infinity,
   });
 
   return (

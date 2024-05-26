@@ -18,6 +18,12 @@ class AuthService {
       })
     );
   }
+
+  async account2FAVerify(userID, code) {
+    return getResponseData(
+      await http.post("/auth/login2FAVerify", { userID, code })
+    );
+  }
 }
 
 export default new AuthService();

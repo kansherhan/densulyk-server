@@ -11,10 +11,17 @@ import { UserToken } from "@/users/models/user-tokens.model";
 import { AuthEmailVerifyDto } from "@/auth/dto/auth-email-verify.dto";
 import { AuthenticatedRequest } from "@/types/requests";
 import { IAuth2FAResponse } from "@/auth/responses/Auth2FA.response";
+import { Auth2FAVerifyDto } from "@/auth/dto/auth-2fa-verify.dto";
 
 @Controller()
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
+
+    @Post("login2FAVerify")
+    @AllowUnauthorizedRequest()
+    async login2FAVerify(@Body() dto: Auth2FAVerifyDto) {
+        return await this.authService.login2FAVerify(dto);
+    }
 
     @Post("login")
     @AllowUnauthorizedRequest()

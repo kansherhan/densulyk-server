@@ -5,9 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 
 import {
+  AUTH_EMAIL_2FA_VERIFY_PAGE,
   AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_REGISTRATION_PAGE,
-  DASHBOARD_PAGE,
 } from "../../constants/pages.js";
 import { TextInput } from "../../components/ui/TextInput.jsx";
 import { Button } from "../../components/ui/Button.jsx";
@@ -38,12 +38,10 @@ export function LoginPage() {
         error.response.status === HTTP_STATUS_EMAIL_NOT_VERIFY
       ) {
         dispatch(login(data));
-
         navigate(AUTH_EMAIL_VERIFICATION_PAGE);
       } else if (!isError) {
         dispatch(login(data));
-
-        navigate(DASHBOARD_PAGE);
+        navigate(AUTH_EMAIL_2FA_VERIFY_PAGE);
       }
     },
   });
@@ -53,6 +51,7 @@ export function LoginPage() {
     queryFn: () => AuthService.login(formik.values),
     enabled: false,
     retry: false,
+    staleTime: Infinity,
   });
 
   return (

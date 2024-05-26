@@ -4,8 +4,8 @@ WORKDIR /truffle
 
 VOLUME ["/truffle/db"]
 
-RUN npm install -g ganache-cli
+RUN npm install ganache --global
 
 EXPOSE 6398
 
-CMD ["ganache-cli", "--host=0.0.0.0", "--db=/truffle/db", "--port=6398", "--networkId=5777"]
+CMD ["ganache", "--server.host=0.0.0.0", "--database.dbPath=/truffle/db", "--server.port=6398", "--chain.networkId=5777", "--wallet.deterministic=true"]

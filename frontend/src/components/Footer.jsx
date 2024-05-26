@@ -14,7 +14,7 @@ export function Footer() {
             <div className="logo">
               <img src={lightLogoIcon} alt="light logo" />
 
-              <h1>DENSULYK</h1>
+              <h1>DENSAULYK</h1>
               <p>medical center</p>
 
               <p className="text">

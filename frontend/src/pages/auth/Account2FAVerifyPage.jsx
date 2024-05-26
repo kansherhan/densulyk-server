@@ -1,28 +1,42 @@
 import * as Yup from "yup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { useQuery } from "@tanstack/react-query";
 
 import AuthService from "../../services/auth.service.js";
 import { TextInput } from "../../components/ui/TextInput.jsx";
 import { Button } from "../../components/ui/Button.jsx";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD_PAGE } from "../../constants/pages.js";
+import { login2FAVerify } from "../../store/slices/auth.slice.js";
 
 export function Account2FAVerifyPage() {
+  const navigate = useNavigate();
+
   const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       code: "",
     },
     validationSchema: Yup.object({
-      code: Yup.number().required(),
+      code: Yup.string().min(1).required(),
     }),
-    onSubmit: async () => {},
+    onSubmit: async () => {
+      const { isError } = await refetch();
+
+      if (!isError) {
+        dispatch(login2FAVerify());
+        navigate(DASHBOARD_PAGE);
+      }
+    },
   });
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["auth-account-2fa-verify"],
-    queryFn: () => AuthService.emailVerify(token.userID, formik.values.code),
+    queryFn: () =>
+      AuthService.account2FAVerify(token.userID, formik.values.code),
     enabled: false,
     retry: false,
     staleTime: Infinity,
@@ -41,7 +55,7 @@ export function Account2FAVerifyPage() {
         <TextInput
           id="code"
           name="code"
-          type="number"
+          type="text"
           placeholder="Код для подтверждения"
           inputTouched={formik.touched.code}
           errorText={formik.errors.code}

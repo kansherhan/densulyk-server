@@ -28,4 +28,10 @@ export class DoctorsController {
             request.user,
         );
     }
+
+    @Get("get-all-appointments")
+    @Roles(UserRole.Admin)
+    async getAllPatientAppointment() {
+        return await this.doctorsService.getAllPatientAppointment();
+    }
 }

@@ -24,9 +24,7 @@ export class ContractsService {
     }
 
     async addUser(email: string, identifier: string) {
-        console.log("load accounts");
         const accounts = await this.web3.eth.getAccounts();
-        console.log("accounts: ", accounts);
 
         await this.contract.methods
             .addUser(email, identifier)

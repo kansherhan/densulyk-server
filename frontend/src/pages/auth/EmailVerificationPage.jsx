@@ -22,21 +22,15 @@ export function EmailVerificationPage() {
     validationSchema: Yup.object({
       code: Yup.number().required(),
     }),
-    onSubmit: async () => {
-      const { isError } = await refetch();
-
-      if (!isError) {
-        dispatch(emailVerify());
-        navigate(DASHBOARD_PAGE);
-      }
-    },
+    onSubmit: async () => await refetch(),
   });
 
-  const { isLoading, refetch } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ["auth-email-verify"],
     queryFn: () => AuthService.emailVerify(token.userID, formik.values.code),
     enabled: false,
     retry: false,
+    staleTime: Infinity,
   });
 
   return (
@@ -46,24 +40,52 @@ export function EmailVerificationPage() {
 
         <p className="description">введите одноразовый код</p>
 
-        <TextInput
-          id="code"
-          name="code"
-          type="number"
-          placeholder="Код для подтверждения"
-          inputTouched={formik.touched.code}
-          errorText={formik.errors.code}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.code}
-        />
+        {data === undefined && (
+          <>
+            <TextInput
+              id="code"
+              name="code"
+              type="number"
+              placeholder="Код для подтверждения"
+              inputTouched={formik.touched.code}
+              errorText={formik.errors.code}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.code}
+            />
 
-        <Button
-          className="submit-button"
-          type="submit"
-          label="Подтвердить"
-          loading={isLoading}
-        />
+            <Button
+              className="submit-button"
+              type="submit"
+              label="Подтвердить"
+              loading={isLoading}
+            />
+          </>
+        )}
+
+        {data && (
+          <div className="width:100%">
+            <p className="margin-bottom:10 text-align:center f:#d12323">
+              Запомните код! Восстановить его невозможно!
+            </p>
+
+            <TextInput
+              type="text"
+              placeholder="Код 2FA"
+              defaultValue={data.code2FA}
+              readonly={true}
+            />
+
+            <Button
+              className="submit-button"
+              label="Открыть кабинет"
+              onClick={() => {
+                dispatch(emailVerify());
+                navigate(DASHBOARD_PAGE);
+              }}
+            />
+          </div>
+        )}
       </form>
     </div>
   );

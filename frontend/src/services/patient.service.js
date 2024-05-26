@@ -2,6 +2,10 @@ import { getResponseData } from "../helper.js";
 import http from "../http.js";
 
 class PatientService {
+  async getDiagnosticByID(id) {
+    return getResponseData(await http.get(`/patients/diagnostics/${id}`));
+  }
+
   async getAllDiagnostics() {
     return getResponseData(await http.get("/patients/patient-all-diagnostic"));
   }
@@ -14,6 +18,10 @@ class PatientService {
 
   async getAllAppointments() {
     return getResponseData(await http.get("/patients/patient-all-appointment"));
+  }
+
+  async getPatientDiagnostic() {
+    return getResponseData(await http.get("/"));
   }
 
   async togglePatientAppointmentMeet(appointmentID) {

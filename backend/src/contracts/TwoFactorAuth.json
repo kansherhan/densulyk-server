@@ -41,7 +41,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_email\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"}],\"name\":\"addUser\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_email\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"}],\"name\":\"verifyIdentifier\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/TwoFactorAuth.sol\":\"TwoFactorAuth\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/TwoFactorAuth.sol\":{\"keccak256\":\"0x04178eb6f110a29245bce526c0f4bdbbffb2460c4ef1d6e689b93a2d5d419879\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://92aac14ab1e3e89c350c9b9ae511b8c4efbc0ac08a7b179b8d82a78c714602a0\",\"dweb:/ipfs/QmXy6MqMnxxNEFkRxbvhzmMAWAwhMTX5n2ZBA52wdrmtnJ\"]}},\"version\":1}",
@@ -4551,12 +4552,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x5246F5Db973660E2344bF22986010Fb883799458",
-      "transactionHash": "0x33bcc717b0fa5f6127253d59c9e3cc21e996ca2cce9f737b9877368bafb72a16"
+      "address": "0x5b1869D9A4C187F2EAa108f3062412ecf0526b24",
+      "transactionHash": "0x807248628f814f6402babe6e72df4cf353d666fb2cecedbbf5b94c19db504769"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-05-25T10:25:49.265Z",
+  "updatedAt": "2024-05-25T15:55:24.004Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

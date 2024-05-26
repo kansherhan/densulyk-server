@@ -19,12 +19,17 @@ import {
   AUTH_EMAIL_VERIFICATION_PAGE,
   AUTH_LOGIN_PAGE,
   AUTH_REGISTRATION_PAGE,
+  DASHBOARD_ADMIN_ALL_APPOINTMENT,
+  DASHBOARD_ADMIN_ALL_DIAGNOSTICS,
   DASHBOARD_ADMIN_CREATE_NEW_DOCTOR,
   DASHBOARD_ADMIN_STATISTIC_2FA,
   DASHBOARD_DOCTOR_ALL_APPOINTMENT,
+  DASHBOARD_DOCTOR_ALL_DIAGNOSTIC,
   DASHBOARD_DOCTOR_CREATE_PATIENT_DIAGNOSTIC,
   DASHBOARD_PAGE,
   DASHBOARD_PATIENT_APPOINTMENT,
+  DASHBOARD_PATIENT_DIAGNOSTIC_PAGE,
+  DASHBOARD_PATIENT_DIAGNOSTICS,
   DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
   DASHBOARD_USER_INFO_PAGE,
   INDEX_PAGE,
@@ -50,6 +55,11 @@ import { DoctorAllPatientAppointmentsPage } from "./pages/dashboard/doctor/Docto
 import { AdminCreateNewDoctorPage } from "./pages/dashboard/admin/AdminCreateNewDoctorPage.jsx";
 import { DoctorCreatePatientDiagnosticPage } from "./pages/dashboard/doctor/DoctorCreatePatientDiagnosticPage.jsx";
 import { Account2FAVerifyPage } from "./pages/auth/Account2FAVerifyPage.jsx";
+import { PatientDiagnosticPage } from "./pages/dashboard/patient/PatientDiagnosticPage.jsx";
+import { PatientDiagnosticList } from "./pages/dashboard/patient/PatientDiagnosticList.jsx";
+import { AdminAllPatientAppointmentsPage } from "./pages/dashboard/admin/AdminAllPatientAppointmentsPage.jsx";
+import { AdminPatientDiagnosticList } from "./pages/dashboard/admin/AdminPatientDiagnosticList.jsx";
+import { DoctorPatientDiagnosticList } from "./pages/dashboard/doctor/DoctorPatientDiagnosticList.jsx";
 
 moment.locale("ru");
 
@@ -84,6 +94,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 element={<PatientAppointmentsPage />}
               />
 
+              <Route
+                path={DASHBOARD_PATIENT_DIAGNOSTIC_PAGE}
+                element={<PatientDiagnosticPage />}
+              />
+
+              <Route
+                path={DASHBOARD_PATIENT_DIAGNOSTICS}
+                element={<PatientDiagnosticList />}
+              />
+
               {/*doctor pages*/}
 
               <Route
@@ -96,11 +116,26 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 element={<DoctorAllPatientAppointmentsPage />}
               />
 
+              <Route
+                path={DASHBOARD_DOCTOR_ALL_DIAGNOSTIC}
+                element={<DoctorPatientDiagnosticList />}
+              />
+
               {/*admin pages*/}
 
               <Route
                 path={DASHBOARD_ADMIN_CREATE_NEW_DOCTOR}
                 element={<AdminCreateNewDoctorPage />}
+              />
+
+              <Route
+                path={DASHBOARD_ADMIN_ALL_DIAGNOSTICS}
+                element={<AdminPatientDiagnosticList />}
+              />
+
+              <Route
+                path={DASHBOARD_ADMIN_ALL_APPOINTMENT}
+                element={<AdminAllPatientAppointmentsPage />}
               />
 
               <Route
@@ -111,14 +146,17 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
             <Route element={<AuthLayout />}>
               <Route path={AUTH_LOGIN_PAGE} element={<LoginPage />} />
+
               <Route
                 path={AUTH_REGISTRATION_PAGE}
                 element={<RegistrationPage />}
               />
+
               <Route
                 path={AUTH_EMAIL_VERIFICATION_PAGE}
                 element={<EmailVerificationPage />}
               />
+
               <Route
                 path={AUTH_EMAIL_2FA_VERIFY_PAGE}
                 element={<Account2FAVerifyPage />}

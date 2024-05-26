@@ -12,6 +12,12 @@ class DoctorService {
     );
   }
 
+  async getAllDiagnostics() {
+    return getResponseData(
+      await http.get("/patients/get-doctor-patient-all-diagnostic")
+    );
+  }
+
   async createPatientDiagnostic(data) {
     console.log(data);
     const formData = createFormDataFromObject(data);

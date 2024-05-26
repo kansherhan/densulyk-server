@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { USER_TOKEN_LOCALSTORAGE_KEY } from "../../constants/app.js";
+import {
+  USER_TOKEN_LOCALSTORAGE_KEY,
+  USER_2FA_VERIFY_LOCALSTORAGE_KEY,
+} from "../../constants/app.js";
 
 const initialState = {
   isAuthorized: false,
+  is2FAuthorized: JSON.parse(
+    localStorage.getItem(USER_2FA_VERIFY_LOCALSTORAGE_KEY) || false
+  ),
   token: JSON.parse(localStorage.getItem(USER_TOKEN_LOCALSTORAGE_KEY) || null),
 };
 
@@ -17,11 +23,20 @@ export const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isAuthorized = true;
+      state.is2FAuthorized = false;
       state.token = action.payload;
 
       localStorage.setItem(
         USER_TOKEN_LOCALSTORAGE_KEY,
         JSON.stringify(state.token)
+      );
+    },
+    login2FAVerify: (state) => {
+      state.is2FAuthorized = true;
+
+      localStorage.setItem(
+        USER_2FA_VERIFY_LOCALSTORAGE_KEY,
+        JSON.stringify(state.is2FAuthorized)
       );
     },
     register: (state, action) => {
@@ -47,5 +62,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, register, emailVerify, logout } = authSlice.actions;
+export const { login, register, emailVerify, logout, login2FAVerify } =
+  authSlice.actions;
 export default authSlice.reducer;

@@ -165,6 +165,8 @@ export function Statistic2FAPage() {
     writeFile(wb, `week_statistic.xlsx`);
   };
 
+  const getLastReport = () => data.reports[0];
+
   return (
     <div className="statistic-2fa-page">
       <div className="container">
@@ -177,28 +179,30 @@ export function Statistic2FAPage() {
           аутентификации с использованием технологии блокчейн.
         </p>
 
-        <div className="margin-bottom:70 flex align-items:center justify-content:space-around">
-          <InfoCard
-            icon={<FaUserAlt size={48} color="#005963" />}
-            title="Всего"
-            value={7}
-          />
-          <InfoCard
-            icon={<FaUserCheck size={48} color="#005963" />}
-            title="Успешные"
-            value={4}
-          />
-          <InfoCard
-            icon={<FaUserTimes size={48} color="#005963" />}
-            title="Неудачные"
-            value={3}
-          />
-          <InfoCard
-            icon={<FaExclamationCircle size={48} color="#005963" />}
-            title="Попытки неудачных"
-            value={6}
-          />
-        </div>
+        {data.reports.length > 0 && (
+          <div className="margin-bottom:70 flex align-items:center justify-content:space-around">
+            <InfoCard
+              icon={<FaUserAlt size={48} color="#005963" />}
+              title="Всего"
+              value={getLastReport().successCount + getLastReport().errorCount}
+            />
+            <InfoCard
+              icon={<FaUserCheck size={48} color="#005963" />}
+              title="Успешные"
+              value={getLastReport().successCount}
+            />
+            <InfoCard
+              icon={<FaUserTimes size={48} color="#005963" />}
+              title="Неудачные"
+              value={getLastReport().errorCount}
+            />
+            <InfoCard
+              icon={<FaExclamationCircle size={48} color="#005963" />}
+              title="Попытки неудачных"
+              value={getLastReport().errorCount}
+            />
+          </div>
+        )}
 
         <div className="margin-bottom:5rem display:flex justify-content:center flex:col h:680 w:full">
           <h3 className="display:block margin-top:45 margin-bottom:15">

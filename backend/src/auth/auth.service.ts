@@ -21,6 +21,8 @@ import { UserAuthHistory } from "@/tasks/models/user-auth-history.model";
 import { AuthenticatedRequest } from "@/types/requests";
 import { ContractsService } from "@/contracts/contracts.service";
 import { IAuth2FAResponse } from "@/auth/responses/Auth2FA.response";
+import { Auth2FAVerifyDto } from "@/auth/dto/auth-2fa-verify.dto";
+import { Auth2FAVerifyException } from "@/auth/exceptions/auth-2fa-verify.exception";
 
 @Injectable()
 export class AuthService {
@@ -147,5 +149,18 @@ export class AuthService {
             userID,
             isSuccess: success,
         });
+    }
+
+    async login2FAVerify(dto: Auth2FAVerifyDto) {
+        const user = await this.usersService.getUserByID(dto.userID);
+
+        const isVerify = await this.contractsService.verifyIdentifier(
+            user.email,
+            dto.code,
+        );
+
+        if (!isVerify) {
+            throw new Auth2FAVerifyException();
+        }
     }
 }

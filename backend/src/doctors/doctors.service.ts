@@ -70,4 +70,10 @@ export class DoctorsService {
             include: { all: true },
         });
     }
+
+    async getAllPatientAppointment() {
+        return await this.patientAppointmentModel.findAll({
+            include: { all: true },
+        });
+    }
 }

@@ -16,6 +16,7 @@ services:
       - upload_files:/backend/uploads
     depends_on:
       - postgres
+      - truffle
 
   adminer:
     image: adminer
@@ -24,6 +25,14 @@ services:
       - "9642:8080"
     depends_on:
       - postgres
+
+  truffle:
+    build: ./truffle
+    restart: always
+    volumes:
+      - truffle_db:/truffle/db
+    ports:
+      - "6398:6398"
 
   frontend:
     build: ./frontend
@@ -39,3 +48,4 @@ services:
 volumes:
   postgres_data:
   upload_files:
+  truffle_db:
