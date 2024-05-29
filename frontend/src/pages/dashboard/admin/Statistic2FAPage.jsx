@@ -141,7 +141,7 @@ export function Statistic2FAPage() {
     datasets: [
       {
         label: "Неудачные",
-        data: data.reports.map((report) => report.successCount),
+        data: data.reports.map((report) => report.errorCount),
         fill: true,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -149,7 +149,7 @@ export function Statistic2FAPage() {
       },
       {
         label: "Успешно",
-        data: data.reports.map((report) => report.errorCount),
+        data: data.reports.map((report) => report.successCount),
         fill: true,
         borderColor: "#0f9379",
         backgroundColor: "#0f93792e",
@@ -199,14 +199,17 @@ export function Statistic2FAPage() {
             <InfoCard
               icon={<FaExclamationCircle size={48} color="#005963" />}
               title="Попытки неудачных"
-              value={getLastReport().errorCount}
+              value={data.reports.reduce(
+                (sum, report) => sum + report.errorCount,
+                0
+              )}
             />
           </div>
         )}
 
         <div className="margin-bottom:5rem display:flex justify-content:center flex:col h:680 w:full">
           <h3 className="display:block margin-top:45 margin-bottom:15">
-            Список последный входов в систему
+            Список последных входов в систему
           </h3>
 
           <Line

@@ -1,11 +1,29 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import peopleIcon from "../assets/svg/pages/main/people.svg";
 import servicesBannerImage from "/images/main-page-services-banner.png";
-import { useEffect } from "react";
 import { clearBackPage } from "../store/slices/settings.slice.js";
-import { useDispatch } from "react-redux";
+import {
+  AUTH_LOGIN_PAGE,
+  DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT,
+} from "../constants/pages.js";
 
 export function IndexPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isAuthorized = useSelector((state) => state.auth.isAuthorized);
+  const is2FAuthorized = useSelector((state) => state.auth.is2FAuthorized);
+
+  const onSubscribeUs = () => {
+    if (isAuthorized && is2FAuthorized) {
+      navigate(DASHBOARD_PATIENT_SUBSCRIBE_APPOINTMENT);
+    } else {
+      navigate(AUTH_LOGIN_PAGE);
+    }
+  };
 
   useEffect(() => {
     dispatch(clearBackPage());
@@ -20,12 +38,12 @@ export function IndexPage() {
             <br /> жизни
           </h1>
           <p>Профессионализм, забота, результат</p>
-          <button>Почитать подробнее</button>
+          <a href="#about">Почитать подробнее</a>
         </div>
       </section>
 
       <section id="about" className="welcome">
-        <div className="subscribe-us">
+        <div className="subscribe-us" onClick={onSubscribeUs}>
           <img src={peopleIcon} alt="people" />
           <p>ЗАПИШИСЬ К НАМ</p>
         </div>

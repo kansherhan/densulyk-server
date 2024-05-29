@@ -1,3 +1,4 @@
+import { useState } from "react";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
@@ -16,9 +17,18 @@ export function AdminAllPatientAppointmentsPage() {
     staleTime: Infinity,
   });
 
+  const [filter, setFilter] = useState("");
+
   if (isLoading) {
     return <LoadingPanel />;
   }
+
+  const filteredPeople =
+    filter === ""
+      ? data
+      : data.filter((user) =>
+          user.user.inn.toLowerCase().includes(filter.toLowerCase())
+        );
 
   const columnsTable = [
     {
@@ -77,13 +87,18 @@ export function AdminAllPatientAppointmentsPage() {
     <div className="doctor-all-patient-appointments-page">
       <div className="container">
         <div className="display:flex">
-          <TextInput placeholder="Поиск..." />
+          <TextInput
+            type="text"
+            placeholder="Поиск..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
         </div>
 
         <DataTable
           className="datatable-fix"
           columns={columnsTable}
-          data={data}
+          data={filteredPeople}
         />
       </div>
     </div>

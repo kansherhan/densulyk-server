@@ -26,7 +26,10 @@
       text-transform: lowercase;
     }
 
-    button {
+    a {
+      display: inline-block;
+      text-decoration: none;
+
       background: $primaryColor;
       color: #fff;
       text-shadow: 0px 2.686px 2.686px rgba(0, 0, 0, 0.25);
