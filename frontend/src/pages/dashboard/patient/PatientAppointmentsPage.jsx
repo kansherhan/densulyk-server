@@ -1,4 +1,3 @@
-import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 
 import PatientService from "../../../services/patient.service.js";
@@ -11,6 +10,7 @@ export function PatientAppointmentsPage() {
     queryKey: ["patient-appointments"],
     queryFn: () => PatientService.getAllAppointments(),
     retry: false,
+    staleTime: Infinity,
   });
 
   if (isLoading) {
@@ -28,11 +28,6 @@ export function PatientAppointmentsPage() {
           <div className="items">
             {data
               .sort((a, b) => b.id - a.id)
-              .filter(
-                (value) =>
-                  !value.isMeeted &&
-                  moment().add(1, "day").toDate() > moment(value.date).toDate()
-              )
               .map((item) => (
                 <div key={item.id} className="margin-bottom:20">
                   <AppointmentCard

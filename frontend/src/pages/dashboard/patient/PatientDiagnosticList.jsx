@@ -12,6 +12,7 @@ export function PatientDiagnosticList() {
     queryKey: ["patient-diagnostic-list"],
     queryFn: () => PatientService.getAllDiagnostics(),
     retry: false,
+    staleTime: Infinity,
   });
 
   const columnsTable = [
