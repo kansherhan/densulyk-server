@@ -48,7 +48,7 @@ export function DoctorAllPatientAppointmentsPage() {
       sortable: true,
     },
     {
-      name: "Поль",
+      name: "Пол",
       selector: (row) => genderText(row.user.gender),
       sortable: true,
     },
