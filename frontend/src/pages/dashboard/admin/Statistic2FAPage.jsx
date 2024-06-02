@@ -165,7 +165,7 @@ export function Statistic2FAPage() {
     writeFile(wb, `week_statistic.xlsx`);
   };
 
-  const getLastReport = () => data.reports[0];
+  const getLastReport = () => data.reports[data.reports.length - 1];
 
   return (
     <div className="statistic-2fa-page">
