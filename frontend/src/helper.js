@@ -1,4 +1,7 @@
+import CryptoJS from "crypto-js";
+
 import { DASHBOARD_PAGE } from "./constants/pages.js";
+import { APP_ENCRYPT_KEY } from "./constants/app.js";
 
 export function getResponseData(response) {
   return response.data;
@@ -30,4 +33,10 @@ export function createHeaderBackPage(title, url) {
 
 export function createDashboardHeaderBackPage() {
   return createHeaderBackPage("Личный кабинет", DASHBOARD_PAGE);
+}
+
+export function decodeText(text) {
+  return CryptoJS.AES.decrypt(text, APP_ENCRYPT_KEY).toString(
+    CryptoJS.enc.Utf8
+  );
 }

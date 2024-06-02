@@ -1,6 +1,7 @@
 import Select from "react-select";
 import { useQuery } from "@tanstack/react-query";
 import DoctorService from "../services/doctor.service.js";
+import { decodeText } from "../helper.js";
 
 export function DoctorPatientsListSelect({ ...props }) {
   const { data, isLoading, refetch } = useQuery({
@@ -22,7 +23,7 @@ export function DoctorPatientsListSelect({ ...props }) {
     ];
 
     options = arrayUniqueByKey.map((user) => ({
-      label: `${user.firstName} ${user.lastName} | ${user.inn}`,
+      label: `${user.firstName} ${user.lastName} | ${decodeText(user.inn)}`,
       value: user.id,
     }));
   }

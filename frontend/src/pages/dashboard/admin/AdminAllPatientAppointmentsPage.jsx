@@ -5,7 +5,7 @@ import DataTable from "react-data-table-component";
 
 import { LoadingPanel } from "../../../components/panels/LoadingPanel.jsx";
 import { TextInput } from "../../../components/ui/TextInput.jsx";
-import { genderText, meetedText } from "../../../helper.js";
+import { decodeText, genderText, meetedText } from "../../../helper.js";
 import PatientService from "../../../services/patient.service.js";
 import AdminService from "../../../services/admin.service.js";
 
@@ -27,7 +27,7 @@ export function AdminAllPatientAppointmentsPage() {
     filter === ""
       ? data
       : data.filter((user) =>
-          user.user.inn.toLowerCase().includes(filter.toLowerCase())
+          decodeText(user.user.inn).toLowerCase().includes(filter.toLowerCase())
         );
 
   const columnsTable = [
@@ -44,7 +44,7 @@ export function AdminAllPatientAppointmentsPage() {
     },
     {
       name: "ИИН",
-      selector: (row) => row.user.inn,
+      selector: (row) => decodeText(row.user.inn),
       sortable: true,
     },
     {

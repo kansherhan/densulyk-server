@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { InfoPanel } from "../../components/panels/InfoPanel.jsx";
 import UserService from "../../services/user.service.js";
-import { genderText } from "../../helper.js";
+import { decodeText, genderText } from "../../helper.js";
 import { ROLES } from "../../constants/roles.js";
 
 export function UserInfo() {
@@ -25,7 +25,7 @@ export function UserInfo() {
           items={[
             {
               label: "ИИН",
-              value: data.inn,
+              value: decodeText(data.inn),
             },
             {
               label: "Имя",

@@ -7,7 +7,7 @@ import DoctorService from "../../../services/doctor.service.js";
 import PatientService from "../../../services/patient.service.js";
 import { LoadingPanel } from "../../../components/panels/LoadingPanel.jsx";
 import { TextInput } from "../../../components/ui/TextInput.jsx";
-import { genderText, meetedText } from "../../../helper.js";
+import { decodeText, genderText, meetedText } from "../../../helper.js";
 
 export function DoctorAllPatientAppointmentsPage() {
   const { data, isLoading, refetch } = useQuery({
@@ -27,7 +27,7 @@ export function DoctorAllPatientAppointmentsPage() {
     filter === ""
       ? data
       : data.filter((user) =>
-          user.user.inn.toLowerCase().includes(filter.toLowerCase())
+          decodeText(user.user.inn).toLowerCase().includes(filter.toLowerCase())
         );
 
   const columnsTable = [
@@ -44,7 +44,7 @@ export function DoctorAllPatientAppointmentsPage() {
     },
     {
       name: "ИИН",
-      selector: (row) => row.user.inn,
+      selector: (row) => decodeText(row.user.inn),
       sortable: true,
     },
     {

@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 import * as bcrypt from "bcryptjs";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
@@ -69,6 +70,11 @@ export class AuthService {
             Number(process.env.BACKEND_CODE_MIN),
             Number(process.env.BACKEND_CODE_MAX),
         );
+
+        authRegistrationDto.inn = CryptoJS.AES.encrypt(
+            authRegistrationDto.inn,
+            process.env.BACKEND_BCRYPT_KEY,
+        ).toString();
 
         const newUser = await this.usersService.createUser(authRegistrationDto);
 

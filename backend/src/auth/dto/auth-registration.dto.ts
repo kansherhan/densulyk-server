@@ -25,7 +25,7 @@ export class AuthRegistrationDto {
 
     @IsString()
     @Length(1, 255)
-    readonly inn: string;
+    inn: string;
 
     @IsDateString()
     readonly birthdate: Date | string;
