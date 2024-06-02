@@ -199,10 +199,9 @@ export function Statistic2FAPage() {
             <InfoCard
               icon={<FaExclamationCircle size={48} color="#005963" />}
               title="Попытки неудачных"
-              value={data.reports.reduce(
-                (sum, report) => sum + report.errorCount,
-                0
-              )}
+              value={data.reports.reduce((sum, report) => {
+                return sum + report.errorCount;
+              }, 0)}
             />
           </div>
         )}

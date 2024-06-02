@@ -18,7 +18,7 @@ export class TasksService {
         private readonly userAuthReportModel: typeof UserAuthReport,
     ) {}
 
-    @Cron(CronExpression.EVERY_9_HOURS)
+    @Cron(CronExpression.EVERY_3_HOURS)
     async handleCron() {
         const date = new Date();
         date.setDate(date.getDate() - 1); // 1 day subtract
